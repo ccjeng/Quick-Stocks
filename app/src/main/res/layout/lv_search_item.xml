@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    tools:ignore="MissingPrefix"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_marginRight="3dp"
+        android:background="@color/white"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content">
+
+        <TextView
+            fontPath="fonts/Roboto-Regular.ttf"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:id="@+id/tvStockName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:gravity="left"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/symbol_black"
+            android:text="Apple" />
+
+
+        <TextView
+            fontPath="fonts/Roboto-Regular.ttf"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/tvStockSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tvStockName"
+            android:gravity="left"
+            android:ellipsize="end"
+            android:textColor="@color/company_name_gray"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:text="APPL" />
+
+        <View
+            android:layout_alignParentBottom="true"
+            android:id="@+id/viewPriceIndicator"
+            android:background="@color/colorPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"/>
+
+        <ImageView
+            android:id="@+id/imgAddFavorite"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/white"
+            android:src="@drawable/img_checkmark"
+            android:paddingTop="10dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
+
+        <TextView
+            fontPath="fonts/Roboto-Regular.ttf"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/tvStockExchange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/imgAddFavorite"
+            android:gravity="right"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/company_name_gray"
+            android:text="NASDAQ" />
+    </RelativeLayout>
+
+</LinearLayout>
+
