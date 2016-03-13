@@ -7,6 +7,7 @@ import com.ccjeng.stock.model.interfaces.YahooStockService;
 import com.ccjeng.stock.model.FinanceItem;
 import com.ccjeng.stock.model.quotes.Quote;
 import com.ccjeng.stock.model.quotes.StockQuotes;
+import com.ccjeng.stock.utils.Constant;
 
 import java.util.ArrayList;
 
@@ -46,10 +47,8 @@ public class StockQuoteAPI {
                     .addInterceptor(logging)
                     .build();
 
-            final String ENDPOINT = "http://query.yahooapis.com/v1/public/";
-
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(ENDPOINT)
+                    .baseUrl(Constant.ENDPOINT_YQL)
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okhttpClient)

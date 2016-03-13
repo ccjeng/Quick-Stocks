@@ -13,6 +13,7 @@ import com.ccjeng.stock.R;
 import com.ccjeng.stock.model.interfaces.CompanyLookupService;
 import com.ccjeng.stock.model.CompanyLookup;
 import com.ccjeng.stock.model.SearchAutocompleteItem;
+import com.ccjeng.stock.utils.Constant;
 import com.ccjeng.stock.utils.PreferencesManager;
 import com.nhaarman.listviewanimations.util.Swappable;
 
@@ -63,7 +64,7 @@ public class SearchAutoCompleterAdapter extends BaseAdapter
                     .build();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://dev.markitondemand.com/MODApis/Api/v2/")
+                    .baseUrl(Constant.ENDPOINT_MOD)
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .client(okhttpClient)

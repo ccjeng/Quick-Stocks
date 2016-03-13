@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
+import com.ccjeng.stock.controller.ChartDataAPI;
 import com.ccjeng.stock.controller.HistoricalDataAPI;
 import com.ccjeng.stock.controller.StockDetailsAdapter;
 import com.ccjeng.stock.model.StockDetailsItem;
@@ -104,6 +105,10 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setSubtitle(getString(R.string.last_trade) + " : " + currentStock.getLastTradeDate() + " "+ currentStock.getLastTradeTime());
 
         getChartData();
+
+        //ChartDataAPI chartDataAPI = new ChartDataAPI(currentStock.getSymbol(), currentGraphicType);
+        //chartDataAPI.getChartData();
+
 
         //scroll to the top
         scrollView.smoothScrollTo(0, 0);
@@ -245,7 +250,7 @@ public class DetailActivity extends AppCompatActivity {
                 break;
         }
 
-        Log.d(TAG, s + " = " + dateValue);
+        //Log.d(TAG, s + " = " + dateValue);
 
         return dateValue;
     }

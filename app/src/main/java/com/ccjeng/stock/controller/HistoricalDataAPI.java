@@ -9,6 +9,7 @@ import com.ccjeng.stock.model.historicaldata.HistoricalData;
 import com.ccjeng.stock.model.historicaldata.Quote;
 import com.ccjeng.stock.model.interfaces.IHistoricalDataCallback;
 import com.ccjeng.stock.model.interfaces.YahooStockService;
+import com.ccjeng.stock.utils.Constant;
 import com.ccjeng.stock.view.DetailActivity;
 import com.github.mikephil.charting.charts.LineChart;
 
@@ -53,10 +54,8 @@ public class HistoricalDataAPI {
                 .addInterceptor(logging)
                 .build();
 
-        final String ENDPOINT = "http://query.yahooapis.com/v1/public/";
-
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(ENDPOINT)
+                .baseUrl(Constant.ENDPOINT_YQL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okhttpClient)
