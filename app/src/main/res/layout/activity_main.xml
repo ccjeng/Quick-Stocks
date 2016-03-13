@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainActivity">
-<!--
+
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar" />-->
+        layout="@layout/toolbar" />
 
     <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+        android:layout_below="@+id/toolbar"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
         android:divider="@android:color/transparent"

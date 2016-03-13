@@ -12,12 +12,13 @@
         tools:ignore="MissingPrefix"
         android:orientation="vertical">
 
-      <!--  <include
+        <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar" />-->
+            layout="@layout/toolbar" />
 
         <RelativeLayout
             android:id="@+id/rlTopStockCard"
+            android:layout_below="@+id/toolbar"
             android:layout_margin="5dp"
             android:background="@color/white"
             android:layout_width="match_parent"

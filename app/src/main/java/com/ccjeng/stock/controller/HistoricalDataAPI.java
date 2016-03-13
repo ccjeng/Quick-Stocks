@@ -4,16 +4,13 @@ import android.graphics.Color;
 import android.util.Log;
 
 import com.ccjeng.stock.R;
+import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.historicaldata.HistoricalData;
 import com.ccjeng.stock.model.historicaldata.Quote;
+import com.ccjeng.stock.model.interfaces.IHistoricalDataCallback;
 import com.ccjeng.stock.model.interfaces.YahooStockService;
 import com.ccjeng.stock.view.DetailActivity;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,35 +34,18 @@ public class HistoricalDataAPI {
 
     private static final String TAG = "HistoricalDataAPI";
 
-    private DetailActivity context;
-    private LineChart chart;
     private String stocksSymbol;
-    private ArrayList<String> dateValues;
-    private ArrayList<Float> closeValues;
-    private ArrayList<Float> highValues;
-    private ArrayList<Float> lowValues;
-    private ArrayList<Float> volumeValues;
-
-
+    private ArrayList<Quote> historicalDataItems;
     private DetailActivity.GraphicType graphicType;
 
-    private static final int GRAPHIC_FILL_ALPHA = 230;
-    private static final float GRAPHIC_CUBIC_INTENSITY = 0.5f;
-    private static final float GRAPHIC_LINE_WIDTH = 2f;
 
-
-    public HistoricalDataAPI(DetailActivity context, String stocksSymbol, DetailActivity.GraphicType graphicType) {
+    public HistoricalDataAPI(String stocksSymbol, DetailActivity.GraphicType graphicType) {
         this.stocksSymbol = stocksSymbol;
         this.graphicType = graphicType;
-        this.dateValues = new ArrayList<String>();
-        this.closeValues = new ArrayList<Float>();
-        this.highValues = new ArrayList<Float>();
-        this.lowValues = new ArrayList<Float>();
-        this.volumeValues = new ArrayList<Float>();
-        this.context = context;
+        this.historicalDataItems = new ArrayList<Quote>();
     }
 
-    public void getHistoricalData(){
+    public void getHistoricalData(final IHistoricalDataCallback callback){
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -102,76 +82,17 @@ public class HistoricalDataAPI {
                     public void onNext(HistoricalData items) {
 
                         for (Quote item: items.getQuery().getResults().getQuote()) {
-                            dateValues.add(item.getDate());
-                            closeValues.add(Float.valueOf(item.getClose()));
-                            highValues.add(Float.valueOf(item.getHigh()));
-                            lowValues.add(Float.valueOf(item.getLow()));
-                            volumeValues.add(Float.valueOf(item.getVolume()));
+                            historicalDataItems.add(item);
                         }
 
-                        Collections.reverse(dateValues);
-                        Collections.reverse(closeValues);
-                        Collections.reverse(highValues);
-                        Collections.reverse(lowValues);
-                        Collections.reverse(volumeValues);
-
-                        setChart();
+                        Collections.reverse(historicalDataItems);
+                        callback.onQueryReceived(historicalDataItems);
                     }
                 });
 
     }
 
-    private void setChart(){
 
-
-        LineChart mChart = (LineChart) context.findViewById(R.id.chartStock);
-
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-
-        for (int i = 0; i < closeValues.size(); i++) {
-            //xVals.add(String.valueOf(i));
-            xVals.add(parseDateFormat(dateValues.get(i), graphicType));
-            yVals.add(new Entry(closeValues.get(i), i));
-        }
-
-        LineDataSet historicalDataSet = new LineDataSet(yVals, context.currentStock.getName());
-        historicalDataSet.setDrawCircles(false);
-        historicalDataSet.setDrawCubic(true);
-        historicalDataSet.setDrawFilled(false);
-        //historicalDataSet.setFillAlpha(GRAPHIC_FILL_ALPHA);
-        historicalDataSet.setCubicIntensity(GRAPHIC_CUBIC_INTENSITY);
-        historicalDataSet.setLineWidth(GRAPHIC_LINE_WIDTH);
-        //historicalDataSet.setFillColor(context.getResources().getColor(R.color.toolbar_orange));
-        historicalDataSet.setColor(context.getResources().getColor(R.color.colorPrimary));
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(historicalDataSet);
-
-        LineData graphicLineData = new LineData(xVals, dataSets);
-        graphicLineData.setDrawValues(false);
-
-        YAxis mainYAxis = mChart.getAxisLeft();
-        mainYAxis.removeAllLimitLines();
-        mainYAxis.setAxisMaxValue(Collections.max(closeValues));
-        mainYAxis.setAxisMinValue(Collections.min(closeValues));
-        mainYAxis.setStartAtZero(false);
-
-        mChart.getAxisRight().setEnabled(false);
-        mChart.setBackgroundColor(Color.WHITE);
-        mChart.setDrawBorders(false);
-        mChart.setDragEnabled(false);
-        mChart.setTouchEnabled(false);
-        mChart.setPinchZoom(false);
-        mChart.setScaleEnabled(false);
-        mChart.setDrawGridBackground(false);
-        mChart.setDescription("");
-        mChart.setData(graphicLineData);
-        mChart.getLegend();
-        mChart.invalidate();
-
-    }
 
     private String buildQuotesGetQuery() {
         Calendar c = Calendar.getInstance();
@@ -198,22 +119,6 @@ public class HistoricalDataAPI {
         return query;
     }
 
-    private String parseDateFormat(String s, DetailActivity.GraphicType graphicType) {
 
-        String dateValue = "";
-        switch (graphicType) {
-            case WEEK:
-            case MONTH:
-                dateValue = s.split("-")[1]+s.split("-")[2];
-                break;
-            case YEAR:
-                dateValue = s.split("-")[1];
-                break;
-        }
-
-        Log.d(TAG, s + " = " + dateValue);
-
-        return dateValue;
-    }
 
 }

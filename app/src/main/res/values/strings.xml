@@ -28,7 +28,7 @@
     <string name="prev_close">Prev Close</string>
     <string name="eps">EPS</string>
     <string name="exchange">Exchange</string>
-    <string name="last_trade">Last trade</string>
+    <string name="last_trade">Last Trade</string>
     <string name="ask">Ask</string>
     <string name="bid">Bid</string>
     <string name="market_capital">MarketCapital</string>

@@ -2,7 +2,7 @@ package com.ccjeng.stock.controller;
 
 import android.util.Log;
 
-import com.ccjeng.stock.view.MainActivity;
+import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
 import com.ccjeng.stock.model.interfaces.YahooStockService;
 import com.ccjeng.stock.model.FinanceItem;
 import com.ccjeng.stock.model.quotes.Quote;
@@ -26,21 +26,18 @@ import rx.schedulers.Schedulers;
 public class StockQuoteAPI {
 
     private static final String TAG = "StockQuoteAPI";
-
     private String[] stocksSymbols;
     private ArrayList<Quote> stockItems;
-    private ArrayList<FinanceItem> financeItems;
-    private MainActivity context;
+   // private ArrayList<FinanceItem> financeItems;
 
-    public StockQuoteAPI(String[] stocksSymbols, MainActivity context) {
+    public StockQuoteAPI(String[] stocksSymbols) {
         this.stocksSymbols = stocksSymbols;
         this.stockItems = new ArrayList<Quote>();
-        this.financeItems = new ArrayList<FinanceItem>();
-        this.context = context;
+       // this.financeItems = new ArrayList<FinanceItem>();
     }
 
 
-    public void getStockQuote() {
+    public void getStockQuote(final IStockQuoteCallback callback) {
         try {
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
@@ -82,9 +79,7 @@ public class StockQuoteAPI {
                                     stockItems.add(quote);
                                 }
 
-                                context.financeItemsAdapter.clear();
-                                context.financeItemsAdapter.addAll(stockItems);
-                                context.financeItemsAdapter.notifyDataSetChanged();
+                                callback.onQueryReceived(stockItems);
 
                             }
                         });

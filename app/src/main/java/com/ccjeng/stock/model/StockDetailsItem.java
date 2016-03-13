@@ -27,20 +27,18 @@ public class StockDetailsItem {
         allItems.add(new StockDetailsItem(mContext.getString(R.string.days_low), stock.getDaysLow()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.year_high), stock.getYearHigh()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.year_low), stock.getYearLow()));
-        allItems.add(new StockDetailsItem(mContext.getString(R.string.market_capital), stock.getMarketCapitalization()));
         return allItems;
     }
 
     public static ArrayList<StockDetailsItem> fromDefaulrRightColumn(Context mContext, Quote stock) {
         ArrayList<StockDetailsItem> allItems = new ArrayList<StockDetailsItem>();
         allItems.add(new StockDetailsItem(mContext.getString(R.string.prev_close), stock.getPreviousClose()));
-        allItems.add(new StockDetailsItem(mContext.getString(R.string.last_trade), stock.getLastTradeDate()));
-        allItems.add(new StockDetailsItem("", stock.getLastTradeTime()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.ask), stock.getAsk()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.bid), stock.getBid()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.pe_ratio), stock.getPERatio()));
         // allItems.add(new StockDetailsItem(mContext.getString(R.string.exchange), stock.getStockExchange()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.eps), stock.getEarningsShare()));
+        allItems.add(new StockDetailsItem(mContext.getString(R.string.market_capital), stock.getMarketCapitalization()));
 
         return allItems;
     }

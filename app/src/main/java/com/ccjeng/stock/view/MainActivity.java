@@ -25,6 +25,8 @@ import com.ccjeng.stock.controller.FinanceItemsAdapter;
 import com.ccjeng.stock.controller.SearchAutoCompleterAdapter;
 import com.ccjeng.stock.controller.StockQuoteAPI;
 import com.ccjeng.stock.model.FinanceItem;
+import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
+import com.ccjeng.stock.model.quotes.Quote;
 import com.ccjeng.stock.utils.PreferencesManager;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
@@ -60,8 +62,11 @@ public class MainActivity extends AppCompatActivity
     public FinanceItemsAdapter financeItemsAdapter;
     private HashSet<Integer> financeItemsToRemove;
 
+    private IStockQuoteCallback gotQuotesCallback;
+
+
     @Bind(R.id.lvFinanceItemsList) public DynamicListView lvMainListview;
-    //@Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.toolbar) Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +74,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //setSupportActionBar(toolbar);
+        setSupportActionBar(toolbar);
 
         mode = Mode.NORMAL;
         financeItemsToRemove = new HashSet<Integer>();
@@ -95,8 +100,16 @@ public class MainActivity extends AppCompatActivity
 
         ArrayList<String> stocksList = PreferencesManager.getInstance().getStockList();
 
-        StockQuoteAPI stockQuoteAPI = new StockQuoteAPI(stocksList.toArray(new String[stocksList.size()]), this);
-        stockQuoteAPI.getStockQuote();
+        gotQuotesCallback = new IStockQuoteCallback() {
+            @Override
+            public void onQueryReceived(ArrayList<Quote> stockItems) {
+                financeItemsAdapter.clear();
+                financeItemsAdapter.addAll(stockItems);
+                financeItemsAdapter.notifyDataSetChanged();
+            }
+        };
+        StockQuoteAPI stockQuoteAPI = new StockQuoteAPI(stocksList.toArray(new String[stocksList.size()]));
+        stockQuoteAPI.getStockQuote(gotQuotesCallback);
 
     }
 
