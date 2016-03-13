@@ -15,8 +15,13 @@ public class HistoricalDataItem {
     //private String AdjClose;
 
 
-    public HistoricalDataItem(String Date, String High, String Low, String Open, String Close, String Volume) {
-
+    public HistoricalDataItem(String Date, String Close, String High, String Low, String Open, String Volume) {
+        this.Date = Date;
+        this.Close = Close;
+        this.High = High;
+        this.Low = Low;
+        this.Open = Open;
+        this.Volume = Volume;
     }
     /**
      *

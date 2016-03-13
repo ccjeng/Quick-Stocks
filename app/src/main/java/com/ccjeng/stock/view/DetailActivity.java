@@ -104,10 +104,10 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(currentStock.getSymbol());
         getSupportActionBar().setSubtitle(getString(R.string.last_trade) + " : " + currentStock.getLastTradeDate() + " "+ currentStock.getLastTradeTime());
 
-        getChartData();
+        //getChartData();
 
-        //ChartDataAPI chartDataAPI = new ChartDataAPI(currentStock.getSymbol(), currentGraphicType);
-        //chartDataAPI.getChartData();
+        ChartDataAPI chartDataAPI = new ChartDataAPI(currentStock.getSymbol(), currentGraphicType);
+        chartDataAPI.getChartData();
 
 
         //scroll to the top

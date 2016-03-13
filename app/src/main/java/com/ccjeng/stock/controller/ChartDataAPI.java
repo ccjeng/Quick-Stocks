@@ -2,7 +2,9 @@ package com.ccjeng.stock.controller;
 
 import android.util.Log;
 
+import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.historicaldata.Quote;
+import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.ccjeng.stock.model.interfaces.IHistoricalDataCallback;
 import com.ccjeng.stock.utils.Constant;
 import com.ccjeng.stock.view.DetailActivity;
@@ -36,18 +38,18 @@ public class ChartDataAPI {
     private static final String TAG = "ChartDataAPI";
 
     private String stocksSymbol;
-    private ArrayList<Quote> historicalDataItems;
+    private ArrayList<HistoricalDataItem> historicalDataItems;
     private DetailActivity.GraphicType graphicType;
 
     public ChartDataAPI(String stocksSymbol, DetailActivity.GraphicType graphicType) {
         this.stocksSymbol = stocksSymbol;
         this.graphicType = graphicType;
-        this.historicalDataItems = new ArrayList<Quote>();
+        this.historicalDataItems = new ArrayList<HistoricalDataItem>();
     }
 
-    public void getChartData() {
+    public void getChartData(final IChartDataCallback callback) {
 
-        final String URL  = Constant.ENDPOINT_YAHOO_CHART + stocksSymbol +"/chartdata;type=quote;range=1d/csv";
+        final String URL  = Constant.ENDPOINT_YAHOO_CHART + stocksSymbol +"/chartdata;type=quote;range="+ getRange() + "/csv";
         Log.d(TAG, URL);
 
         OkHttpClient client = new OkHttpClient();
@@ -66,7 +68,9 @@ public class ChartDataAPI {
             public void onResponse(Call call, final Response response) throws IOException {
                 if (response.isSuccessful()) {
                     parser(response.body().string());
-                  //  throw new IOException("Unexpected code " + response);
+
+                    callback.onQueryReceived(historicalDataItems);
+
                 }
             }
         });
@@ -76,35 +80,47 @@ public class ChartDataAPI {
 
 
     private void parser(String text) {
+        InputStream stream = new ByteArrayInputStream(text.getBytes());
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
         try {
-            InputStream stream = new ByteArrayInputStream(text.getBytes());
-            InputStreamReader isr = new InputStreamReader(stream,"UTF-8");
-            BufferedReader br = new BufferedReader(isr);
+
             Boolean beginFind = false;
-            String s;
+            String line;
 
-            Log.d(TAG, br.readLine());
-/*
-            while (null != (s = br.readLine())) {
+            while ((line = reader.readLine()) != null) {
 
-                if (s.trim().startsWith("volume")) {
+                if (line.startsWith("volume:")) {
                     beginFind = true;
-                } else
-                    beginFind = false;
                 }
+
                 if (beginFind) {
-                    Log.d(TAG, s.trim());
-                   // sb.append(s.trim());
+                    Log.d(TAG, line);
+
+                    if (!line.startsWith("volume:")) {
+                        historicalDataItems.add(new HistoricalDataItem(
+                                line.split(",")[0],
+                                line.split(",")[1],
+                                line.split(",")[2],
+                                line.split(",")[3],
+                                line.split(",")[4],
+                                line.split(",")[5]
+                        ));
+                    }
                 }
 
-            }*/
-
-            br.close();
+            }
 
 
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            try {
+                reader.close();
+            }
+            catch (IOException e) {
+                throw new RuntimeException("Error while closing input stream: "+e);
+            }
         }
     }
 
@@ -112,29 +128,24 @@ public class ChartDataAPI {
 
 
 
-    private String buildQuotesGetQuery() {
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String todayDate = sdf.format(c.getTime());
+    private String getRange() {
+        String range = "";
         switch (graphicType) {
             case WEEK: {
-                c.add(Calendar.WEEK_OF_MONTH, -1);
+                range = "1w";
                 break;
             }
             case MONTH: {
-                c.add(Calendar.MONTH, -1);
+                range = "1m";
                 break;
             }
             case YEAR: {
-                c.add(Calendar.YEAR, -1);
+                range = "1y";
                 break;
             }
         }
-        String maxDate = sdf.format(c.getTime());
 
-        String query = "select * from yahoo.finance.historicaldata where symbol = '" + stocksSymbol + "' and startDate = '" +
-                maxDate + "' and endDate = '" + todayDate + "'";
-        return query;
+        return range;
     }
 
 
