@@ -20,8 +20,14 @@ import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.StockDetailsItem;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.ccjeng.stock.model.quotes.Quote;
-import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CandleData;
+import com.github.mikephil.charting.data.CandleDataSet;
+import com.github.mikephil.charting.data.CandleEntry;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -72,7 +78,7 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.lvStockDetailsLeft) ListView lvLeftDetailsColumn;
     @Bind(R.id.lvStockDetailsRight) ListView lvRightDetailsColumn;
 
-    @Bind(R.id.chartStock) LineChart mChart;
+    @Bind(R.id.chartStock) CombinedChart mChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,9 +221,54 @@ public class DetailActivity extends AppCompatActivity {
         chartDataAPI.getChartData(gotChartDataCallback);
     }
 
-
     private void setChart(ArrayList<HistoricalDataItem> stockItems){
 
+        ArrayList<Float> closeValues = new ArrayList<Float>();;
+
+        //XAxis
+        ArrayList<String> xVals = new ArrayList<String>();
+        for (int i = 0; i < stockItems.size(); i++) {
+            xVals.add(parseDateFormat(stockItems.get(i).getDate(), currentGraphicType));
+            closeValues.add(Float.valueOf(stockItems.get(i).getClose()));
+        }
+
+        mChart.getAxisRight().setEnabled(false);
+        mChart.setBackgroundColor(Color.WHITE);
+        mChart.setDrawBorders(false);
+        mChart.setDragEnabled(false);
+        mChart.setTouchEnabled(false);
+        mChart.setPinchZoom(false);
+        mChart.setScaleEnabled(false);
+        mChart.setDrawGridBackground(false);
+        mChart.setDescription("");
+
+        // draw bars behind lines
+        mChart.setDrawOrder(new DrawOrder[] {
+                DrawOrder.BAR,  DrawOrder.CANDLE, DrawOrder.LINE
+        });
+
+        YAxis rightAxis = mChart.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+
+        leftAxis.removeAllLimitLines();
+        leftAxis.setAxisMaxValue(Collections.max(closeValues));
+        leftAxis.setAxisMinValue(Collections.min(closeValues));
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+
+        CombinedData data = new CombinedData(xVals);
+
+        data.setData(generateLineData(stockItems));
+        //data.setData(generateCandleData(stockItems));
+
+        mChart.setData(data);
+        mChart.invalidate();
+
+        /*
         ArrayList<String> xVals = new ArrayList<String>();
 
         ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -244,6 +295,7 @@ public class DetailActivity extends AppCompatActivity {
         dataSets.add(historicalDataSet);
 
         LineData graphicLineData = new LineData(xVals, dataSets);
+
         graphicLineData.setDrawValues(false);
 
         YAxis mainYAxis = mChart.getAxisLeft();
@@ -265,7 +317,59 @@ public class DetailActivity extends AppCompatActivity {
         mChart.setData(graphicLineData);
         mChart.getLegend();
         mChart.invalidate();
+        */
 
+    }
+
+    private LineData generateLineData(ArrayList<HistoricalDataItem> stockItems) {
+        LineData d = new LineData();
+        ArrayList<Entry> entries = new ArrayList<Entry>();
+
+        for (int i = 0; i < stockItems.size(); i++) {
+            entries.add(new Entry(Float.valueOf(stockItems.get(i).getClose()), i));
+        }
+
+        LineDataSet set = new LineDataSet(entries, currentStock.getName());
+        set.setDrawCircles(false);
+        set.setDrawCubic(true);
+        set.setDrawFilled(false);
+        //historicalDataSet.setFillAlpha(GRAPHIC_FILL_ALPHA);
+        set.setCubicIntensity(GRAPHIC_CUBIC_INTENSITY);
+        set.setLineWidth(GRAPHIC_LINE_WIDTH);
+        set.setColor(getResources().getColor(R.color.colorPrimary));
+
+
+        set.setDrawValues(false);
+
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        d.addDataSet(set);
+
+        return d;
+    }
+
+    protected CandleData generateCandleData(ArrayList<HistoricalDataItem> stockItems) {
+
+        CandleData d = new CandleData();
+
+        ArrayList<CandleEntry> entries = new ArrayList<CandleEntry>();
+
+        for (int i = 0; i < stockItems.size(); i++) {
+            entries.add(new CandleEntry(i,
+                    Float.valueOf(stockItems.get(i).getHigh()),
+                    Float.valueOf(stockItems.get(i).getLow()),
+                    Float.valueOf(stockItems.get(i).getOpen()),
+                    Float.valueOf(stockItems.get(i).getClose())));
+        }
+
+        CandleDataSet set = new CandleDataSet(entries, "K Line");
+        set.setColor(Color.rgb(80, 80, 80));
+        set.setBarSpace(0.3f);
+        set.setValueTextSize(10f);
+        set.setDrawValues(false);
+        d.addDataSet(set);
+
+        return d;
     }
 
     /**

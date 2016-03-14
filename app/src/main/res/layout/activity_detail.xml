@@ -177,7 +177,7 @@
 
         </LinearLayout>
 
-        <com.github.mikephil.charting.charts.LineChart
+        <com.github.mikephil.charting.charts.CombinedChart
             android:layout_below="@+id/llGraphicLabels"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
