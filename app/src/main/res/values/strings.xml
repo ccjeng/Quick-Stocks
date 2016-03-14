@@ -36,9 +36,14 @@
 
 
     <string name="title_activity_activity_webview">ActivityWebview</string>
-    <string name="grpah_week">week</string>
-    <string name="grpah_month">month</string>
-    <string name="grpah_year">year</string>
+    <string name="grpah_day">1D</string>
+    <string name="grpah_day5">5D</string>
+    <string name="grpah_month">1M</string>
+    <string name="grpah_month3">3M</string>
+    <string name="grpah_month6">6M</string>
+    <string name="grpah_year">1Y</string>
+    <string name="grpah_year5">5Y</string>
+
     <string name="no_internet_connection">No internet connection</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="github">GitHub</string>

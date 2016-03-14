@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public interface IHistoricalDataCallback {
 
+    @Deprecated
     public void onQueryReceived(ArrayList<Quote> stockItems);
 
 }

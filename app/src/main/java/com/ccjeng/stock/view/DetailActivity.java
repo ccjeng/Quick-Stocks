@@ -15,10 +15,10 @@ import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.controller.ChartDataAPI;
-import com.ccjeng.stock.controller.HistoricalDataAPI;
 import com.ccjeng.stock.controller.StockDetailsAdapter;
+import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.StockDetailsItem;
-import com.ccjeng.stock.model.interfaces.IHistoricalDataCallback;
+import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.ccjeng.stock.model.quotes.Quote;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.YAxis;
@@ -27,10 +27,14 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
-import org.w3c.dom.Text;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,7 +48,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final float GRAPHIC_LINE_WIDTH = 1f;
 
     public static enum GraphicType {
-        YEAR, MONTH, WEEK
+        YEAR5, YEAR, MONTH6, MONTH3, MONTH, DAY5, DAY
     }
 
     public Quote currentStock;
@@ -52,9 +56,13 @@ public class DetailActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.scrollview) ScrollView scrollView;
+    @Bind(R.id.tvGraphicLabelDay) TextView tvGraphicLabelDay;
+    @Bind(R.id.tvGraphicLabelMonth6) TextView tvGraphicLabelMonth6;
+    @Bind(R.id.tvGraphicLabelMonth3) TextView tvGraphicLabelMonth3;
     @Bind(R.id.tvGraphicLabelMonth) TextView tvGraphicLabelMonth;
     @Bind(R.id.tvGraphicLabelYear) TextView tvGraphicLabelYear;
-    @Bind(R.id.tvGraphicLabelWeek) TextView tvGraphicLabelWeek;
+    @Bind(R.id.tvGraphicLabelYear5) TextView tvGraphicLabelYear5;
+    @Bind(R.id.tvGraphicLabelDay5) TextView tvGraphicLabelDay5;
     @Bind(R.id.tvStockName) TextView tvStockName;
     @Bind(R.id.tvStockSymbol) TextView tvStockSymbol;
     @Bind(R.id.tvStockPrice) TextView tvStockPrice;
@@ -65,8 +73,6 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.lvStockDetailsRight) ListView lvRightDetailsColumn;
 
     @Bind(R.id.chartStock) LineChart mChart;
-
-    private IHistoricalDataCallback gotHistoricalDataCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,16 +104,13 @@ public class DetailActivity extends AppCompatActivity {
         StockDetailsAdapter rightAdapter = new StockDetailsAdapter(this, StockDetailsItem.fromDefaulrRightColumn(this, currentStock));
         lvRightDetailsColumn.setAdapter(rightAdapter);
 
-        currentGraphicType = GraphicType.MONTH;
+        currentGraphicType = GraphicType.DAY;
 
         //set toolbar title
         getSupportActionBar().setTitle(currentStock.getSymbol());
         getSupportActionBar().setSubtitle(getString(R.string.last_trade) + " : " + currentStock.getLastTradeDate() + " "+ currentStock.getLastTradeTime());
 
-        //getChartData();
-
-        ChartDataAPI chartDataAPI = new ChartDataAPI(currentStock.getSymbol(), currentGraphicType);
-        chartDataAPI.getChartData();
+        getChartData();
 
 
         //scroll to the top
@@ -135,33 +138,61 @@ public class DetailActivity extends AppCompatActivity {
 
     public void onClickGraphicLabel(View v) {
 
-        //tvGraphicLabelMonth.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
-        //tvGraphicLabelWeek.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
-        //tvGraphicLabelYear.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
+        tvGraphicLabelDay.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
+        tvGraphicLabelMonth.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
+        tvGraphicLabelMonth3.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
+        tvGraphicLabelMonth6.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
+        tvGraphicLabelDay5.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
+        tvGraphicLabelYear.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
+        tvGraphicLabelYear5.setTextColor(getResources().getColor(R.color.sliding_menu_text_color));
 
+        tvGraphicLabelDay.setTextSize(14);
+        tvGraphicLabelMonth6.setTextSize(14);
+        tvGraphicLabelMonth3.setTextSize(14);
         tvGraphicLabelMonth.setTextSize(14);
-        tvGraphicLabelWeek.setTextSize(14);
+        tvGraphicLabelDay5.setTextSize(14);
         tvGraphicLabelYear.setTextSize(14);
+        tvGraphicLabelYear5.setTextSize(14);
 
+        tvGraphicLabelDay.setTypeface(null, Typeface.NORMAL);
         tvGraphicLabelMonth.setTypeface(null, Typeface.NORMAL);
-        tvGraphicLabelWeek.setTypeface(null, Typeface.NORMAL);
+        tvGraphicLabelMonth3.setTypeface(null, Typeface.NORMAL);
+        tvGraphicLabelMonth6.setTypeface(null, Typeface.NORMAL);
+        tvGraphicLabelDay5.setTypeface(null, Typeface.NORMAL);
         tvGraphicLabelYear.setTypeface(null, Typeface.NORMAL);
+        tvGraphicLabelYear5.setTypeface(null, Typeface.NORMAL);
 
         ((TextView) v).setTypeface(null, Typeface.BOLD);
         ((TextView) v).setTextSize(16);
         ((TextView) v).setTextColor(getResources().getColor(R.color.symbol_black));
 
         switch (v.getId()) {
+            case R.id.tvGraphicLabelDay: {
+                currentGraphicType = GraphicType.DAY;
+                break;
+            }
+            case R.id.tvGraphicLabelMonth6: {
+                currentGraphicType = GraphicType.MONTH6;
+                break;
+            }
+            case R.id.tvGraphicLabelMonth3: {
+                currentGraphicType = GraphicType.MONTH3;
+                break;
+            }
             case R.id.tvGraphicLabelMonth: {
                 currentGraphicType = GraphicType.MONTH;
                 break;
             }
-            case R.id.tvGraphicLabelWeek: {
-                currentGraphicType = GraphicType.WEEK;
+            case R.id.tvGraphicLabelDay5: {
+                currentGraphicType = GraphicType.DAY5;
                 break;
             }
             case R.id.tvGraphicLabelYear: {
                 currentGraphicType = GraphicType.YEAR;
+                break;
+            }
+            case R.id.tvGraphicLabelYear5: {
+                currentGraphicType = GraphicType.YEAR5;
                 break;
             }
 
@@ -173,19 +204,19 @@ public class DetailActivity extends AppCompatActivity {
 
     private void getChartData() {
 
-        gotHistoricalDataCallback = new IHistoricalDataCallback() {
+        IChartDataCallback gotChartDataCallback = new IChartDataCallback() {
             @Override
-            public void onQueryReceived(ArrayList<com.ccjeng.stock.model.historicaldata.Quote> stockItems) {
-
-                setChart(stockItems);
+            public void onQueryReceived(ArrayList<HistoricalDataItem> items) {
+                setChart(items);
             }
         };
-        HistoricalDataAPI historicalDataAPI = new HistoricalDataAPI(currentStock.getSymbol(), currentGraphicType);
-        historicalDataAPI.getHistoricalData(gotHistoricalDataCallback);
+
+        ChartDataAPI chartDataAPI = new ChartDataAPI(this, currentStock.getSymbol(), currentGraphicType);
+        chartDataAPI.getChartData(gotChartDataCallback);
     }
 
 
-    private void setChart(ArrayList<com.ccjeng.stock.model.historicaldata.Quote> stockItems){
+    private void setChart(ArrayList<HistoricalDataItem> stockItems){
 
         ArrayList<String> xVals = new ArrayList<String>();
 
@@ -237,21 +268,51 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * parse date format and display in chart
+     * @param s datetime string
+     * @param graphicType date range for chart display
+     * @return
+     */
     private String parseDateFormat(String s, DetailActivity.GraphicType graphicType) {
 
-        String dateValue = "";
+        String dateValue = s;
+
         switch (graphicType) {
-            case WEEK:
+            case DAY:
+                dateValue = convertDateTime(s);
+                break;
+            case DAY5:
+                dateValue = convertDateTime(s).substring(0, 4);
+                break;
             case MONTH:
-                dateValue = s.split("-")[1]+s.split("-")[2];
+            case MONTH3:
+            case MONTH6:
+                dateValue = s.substring(4, 8);
                 break;
             case YEAR:
-                dateValue = s.split("-")[1];
+            case YEAR5:
+                dateValue = s.substring(0, 6);
                 break;
         }
 
         //Log.d(TAG, s + " = " + dateValue);
 
         return dateValue;
+    }
+
+    /**
+     * convert epoch time to human read date
+     * @param timestamp
+     * @return datetime
+     */
+    private String convertDateTime(String timestamp) {
+
+        Date date = new Date(Long.valueOf(timestamp)* 1000);
+        DateTimeFormatter df = DateTimeFormat.forPattern("MMdd HH:mm");
+        DateTimeZone timeZone = DateTimeZone.forID( "America/New_York" );
+        DateTime dt = new DateTime( date, timeZone );
+
+        return dt.toString(df);
     }
 }

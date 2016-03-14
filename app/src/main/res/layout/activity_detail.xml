@@ -106,22 +106,52 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvGraphicLabelWeek"
+                android:id="@+id/tvGraphicLabelDay"
+                android:onClick="onClickGraphicLabel"
+                android:textColor="@color/symbol_black"
+                android:text="@string/grpah_day"
+                android:layout_width="wrap_content"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                android:layout_marginRight="25dp"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvGraphicLabelDay5"
                 android:onClick="onClickGraphicLabel"
                 android:textColor="@color/sliding_menu_text_color"
-                android:text="@string/grpah_week"
+                android:text="@string/grpah_day5"
                 android:layout_width="wrap_content"
                 android:textSize="14sp"
+                android:layout_marginRight="25dp"
                 android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/tvGraphicLabelMonth"
                 android:onClick="onClickGraphicLabel"
-                android:textColor="@color/symbol_black"
-                android:textSize="16sp"
-                android:textStyle="bold"
+                android:textColor="@color/sliding_menu_text_color"
+                android:textSize="14sp"
                 android:text="@string/grpah_month"
-                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvGraphicLabelMonth3"
+                android:onClick="onClickGraphicLabel"
+                android:textColor="@color/sliding_menu_text_color"
+                android:textSize="14sp"
+                android:text="@string/grpah_month3"
+                android:layout_marginRight="25dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvGraphicLabelMonth6"
+                android:onClick="onClickGraphicLabel"
+                android:textColor="@color/sliding_menu_text_color"
+                android:textSize="14sp"
+                android:text="@string/grpah_month6"
                 android:layout_marginRight="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -132,8 +162,19 @@
                 android:textColor="@color/sliding_menu_text_color"
                 android:textSize="14sp"
                 android:text="@string/grpah_year"
+                android:layout_marginRight="25dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tvGraphicLabelYear5"
+                android:onClick="onClickGraphicLabel"
+                android:textColor="@color/sliding_menu_text_color"
+                android:textSize="14sp"
+                android:text="@string/grpah_year5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
         </LinearLayout>
 
         <com.github.mikephil.charting.charts.LineChart

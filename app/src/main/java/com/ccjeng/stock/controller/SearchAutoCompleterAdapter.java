@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
+import com.ccjeng.stock.Stock;
 import com.ccjeng.stock.model.interfaces.CompanyLookupService;
 import com.ccjeng.stock.model.CompanyLookup;
 import com.ccjeng.stock.model.SearchAutocompleteItem;
@@ -58,7 +59,11 @@ public class SearchAutoCompleterAdapter extends BaseAdapter
         try {
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            if (Stock.APPDEBUG) {
+                logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            } else {
+                logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+            }
             OkHttpClient okhttpClient = new OkHttpClient.Builder()
                     .addInterceptor(logging)
                     .build();

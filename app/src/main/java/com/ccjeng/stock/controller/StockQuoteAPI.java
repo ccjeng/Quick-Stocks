@@ -2,6 +2,7 @@ package com.ccjeng.stock.controller;
 
 import android.util.Log;
 
+import com.ccjeng.stock.Stock;
 import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
 import com.ccjeng.stock.model.interfaces.YahooStockService;
 import com.ccjeng.stock.model.FinanceItem;
@@ -37,12 +38,15 @@ public class StockQuoteAPI {
        // this.financeItems = new ArrayList<FinanceItem>();
     }
 
-
     public void getStockQuote(final IStockQuoteCallback callback) {
         try {
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            if (Stock.APPDEBUG) {
+                logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+            } else {
+                logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+            }
             OkHttpClient okhttpClient = new OkHttpClient.Builder()
                     .addInterceptor(logging)
                     .build();
@@ -74,7 +78,7 @@ public class StockQuoteAPI {
                             public void onNext(StockQuotes stockQuotes) {
 
                                 for(Quote quote: stockQuotes.getQuery().getResults().getQuote()) {
-                                    Log.d(TAG, quote.getSymbol() + " - " + quote.getLastTradePriceOnly());
+                                    //Log.d(TAG, quote.getSymbol() + " - " + quote.getLastTradePriceOnly());
                                     stockItems.add(quote);
                                 }
 

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.util.Log;
 
 import com.ccjeng.stock.R;
+import com.ccjeng.stock.Stock;
 import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.historicaldata.HistoricalData;
 import com.ccjeng.stock.model.historicaldata.Quote;
@@ -39,17 +40,22 @@ public class HistoricalDataAPI {
     private ArrayList<Quote> historicalDataItems;
     private DetailActivity.GraphicType graphicType;
 
-
+    @Deprecated
     public HistoricalDataAPI(String stocksSymbol, DetailActivity.GraphicType graphicType) {
         this.stocksSymbol = stocksSymbol;
         this.graphicType = graphicType;
         this.historicalDataItems = new ArrayList<Quote>();
     }
 
+    @Deprecated
     public void getHistoricalData(final IHistoricalDataCallback callback){
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        if (Stock.APPDEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
         OkHttpClient okhttpClient = new OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .build();
@@ -92,13 +98,13 @@ public class HistoricalDataAPI {
     }
 
 
-
+    @Deprecated
     private String buildQuotesGetQuery() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String todayDate = sdf.format(c.getTime());
         switch (graphicType) {
-            case WEEK: {
+            case DAY5: {
                 c.add(Calendar.WEEK_OF_MONTH, -1);
                 break;
             }
