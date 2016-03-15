@@ -1,5 +1,5 @@
 
-package com.ccjeng.stock.model.historicaldata;
+package com.ccjeng.stock.model.yahoo.historicaldata;
 
 import java.util.ArrayList;
 import java.util.List;

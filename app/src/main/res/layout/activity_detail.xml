@@ -178,18 +178,28 @@
         </LinearLayout>
 
         <com.github.mikephil.charting.charts.CombinedChart
+            android:id="@+id/chartStock"
             android:layout_below="@+id/llGraphicLabels"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:background="@color/white"
-            android:id="@+id/chartStock"
+            android:layout_width="match_parent"
+            android:layout_height="250dp" />
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barchartStock"
+            android:layout_below="@+id/chartStock"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:visibility="gone"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="250dp" />
 
         <LinearLayout
             android:id="@+id/llDetailColumns"
             android:layout_margin="5dp"
-            android:layout_below="@+id/chartStock"
+            android:layout_below="@+id/barchartStock"
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_width="match_parent"
@@ -210,7 +220,7 @@
                 android:orientation="vertical"/>
 
             <ListView
-                android:layout_below="@+id/chartStock"
+                android:layout_below="@+id/barchartStock"
                 android:layout_toRightOf="@id/lvStockDetailsLeft"
                 android:background="@color/white"
                 android:id="@+id/lvStockDetailsRight"

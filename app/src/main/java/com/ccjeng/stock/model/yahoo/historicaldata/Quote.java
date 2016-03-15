@@ -1,5 +1,5 @@
 
-package com.ccjeng.stock.model.historicaldata;
+package com.ccjeng.stock.model.yahoo.historicaldata;
 
 public class Quote {
 

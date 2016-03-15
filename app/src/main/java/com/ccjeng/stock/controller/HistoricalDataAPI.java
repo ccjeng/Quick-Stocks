@@ -1,18 +1,14 @@
 package com.ccjeng.stock.controller;
 
-import android.graphics.Color;
 import android.util.Log;
 
-import com.ccjeng.stock.R;
 import com.ccjeng.stock.Stock;
-import com.ccjeng.stock.model.HistoricalDataItem;
-import com.ccjeng.stock.model.historicaldata.HistoricalData;
-import com.ccjeng.stock.model.historicaldata.Quote;
+import com.ccjeng.stock.model.yahoo.historicaldata.HistoricalData;
+import com.ccjeng.stock.model.yahoo.historicaldata.Quote;
 import com.ccjeng.stock.model.interfaces.IHistoricalDataCallback;
 import com.ccjeng.stock.model.interfaces.YahooStockService;
 import com.ccjeng.stock.utils.Constant;
 import com.ccjeng.stock.view.DetailActivity;
-import com.github.mikephil.charting.charts.LineChart;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

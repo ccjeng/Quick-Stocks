@@ -20,10 +20,14 @@ import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.StockDetailsItem;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.ccjeng.stock.model.quotes.Quote;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.CandleData;
 import com.github.mikephil.charting.data.CandleDataSet;
 import com.github.mikephil.charting.data.CandleEntry;
@@ -79,6 +83,8 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.lvStockDetailsRight) ListView lvRightDetailsColumn;
 
     @Bind(R.id.chartStock) CombinedChart mChart;
+    @Bind(R.id.barchartStock) BarChart mBarChart;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,6 +220,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onQueryReceived(ArrayList<HistoricalDataItem> items) {
                 setChart(items);
+                //setBarChart(items);
             }
         };
 
@@ -224,12 +231,14 @@ public class DetailActivity extends AppCompatActivity {
     private void setChart(ArrayList<HistoricalDataItem> stockItems){
 
         ArrayList<Float> closeValues = new ArrayList<Float>();;
+        ArrayList<Float> volumeValues = new ArrayList<Float>();;
 
         //XAxis
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < stockItems.size(); i++) {
             xVals.add(parseDateFormat(stockItems.get(i).getDate(), currentGraphicType));
             closeValues.add(Float.valueOf(stockItems.get(i).getClose()));
+            volumeValues.add(Float.valueOf(stockItems.get(i).getVolume()));
         }
 
         mChart.getAxisRight().setEnabled(false);
@@ -258,7 +267,7 @@ public class DetailActivity extends AppCompatActivity {
         leftAxis.setAxisMinValue(Collections.min(closeValues));
 
         XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         CombinedData data = new CombinedData(xVals);
 
@@ -267,6 +276,8 @@ public class DetailActivity extends AppCompatActivity {
 
         mChart.setData(data);
         mChart.invalidate();
+
+
 
         /*
         ArrayList<String> xVals = new ArrayList<String>();
@@ -370,6 +381,48 @@ public class DetailActivity extends AppCompatActivity {
         d.addDataSet(set);
 
         return d;
+    }
+
+    private void setBarChart(ArrayList<HistoricalDataItem> stockItems){
+        //Bar Chart
+        mBarChart.getAxisRight().setEnabled(false);
+        mBarChart.getAxisLeft().setEnabled(false);
+        mBarChart.setDrawBarShadow(false);
+        mBarChart.setDrawValueAboveBar(true);
+        mBarChart.setDescription("");
+        // if more than 60 entries are displayed in the chart, no values will be
+        // drawn
+        mBarChart.setMaxVisibleValueCount(60);
+
+        // scaling can now only be done on x- and y-axis separately
+        mBarChart.setPinchZoom(false);
+        mBarChart.setDrawGridBackground(false);
+
+        XAxis xAxis = mBarChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        YAxis rightAxis = mBarChart.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+
+        YAxis leftAxis = mBarChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+
+        //XAxis
+        ArrayList<String> xVals = new ArrayList<String>();
+        //YAxis
+        ArrayList<BarEntry> entries = new ArrayList<>();
+
+        for (int i = 0; i < stockItems.size(); i++) {
+            xVals.add(parseDateFormat(stockItems.get(i).getDate(), currentGraphicType));
+            entries.add(new BarEntry(Float.valueOf(stockItems.get(i).getVolume()), i));
+        }
+
+        BarDataSet dataset = new BarDataSet(entries, "Volume");
+        BarData barData = new BarData(xVals);
+        barData.addDataSet(dataset);
+        mBarChart.setData(barData);
+        mBarChart.invalidate();
+
     }
 
     /**

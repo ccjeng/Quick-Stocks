@@ -1,6 +1,6 @@
 package com.ccjeng.stock.model.interfaces;
 
-import com.ccjeng.stock.model.historicaldata.HistoricalData;
+import com.ccjeng.stock.model.yahoo.historicaldata.HistoricalData;
 import com.ccjeng.stock.model.quotes.StockQuotes;
 
 import retrofit2.http.GET;
