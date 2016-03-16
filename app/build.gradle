@@ -39,4 +39,5 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.3'
     compile 'joda-time:joda-time:2.9.2'
+    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
 }
