@@ -18,8 +18,8 @@ import com.ccjeng.stock.controller.ChartDataAPI;
 import com.ccjeng.stock.controller.StockDetailsAdapter;
 import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.StockDetailsItem;
+import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
-import com.ccjeng.stock.model.quotes.Quote;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
@@ -35,7 +35,6 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -61,7 +60,7 @@ public class DetailActivity extends AppCompatActivity {
         YEAR5, YEAR, MONTH6, MONTH3, MONTH, DAY5, DAY
     }
 
-    public Quote currentStock;
+    public StockQuote currentStock;
     private GraphicType currentGraphicType;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -98,12 +97,12 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         if (getIntent().hasExtra(MainActivity.INTENT_EXTRA_STOCK)) {
-            currentStock = (Quote) getIntent().getSerializableExtra(MainActivity.INTENT_EXTRA_STOCK);
+            currentStock = (StockQuote) getIntent().getSerializableExtra(MainActivity.INTENT_EXTRA_STOCK);
         }
 
         tvStockName.setText(currentStock.getName());
         tvStockSymbol.setText(currentStock.getSymbol());
-        tvStockPrice.setText(currentStock.getLastTradePriceOnly());
+        tvStockPrice.setText(currentStock.getLastTradePrice());
         tvStockPriceChange.setText(currentStock.getFormatedPriceChange());
         tvStockPriceChange.setTextColor(currentStock.getPriceColor(this));
         viewPriceIndicator.setBackgroundColor(currentStock.getPriceColor(this));
@@ -120,7 +119,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //set toolbar title
         getSupportActionBar().setTitle(currentStock.getSymbol());
-        getSupportActionBar().setSubtitle(getString(R.string.last_trade) + " : " + currentStock.getLastTradeDate() + " "+ currentStock.getLastTradeTime());
+        getSupportActionBar().setSubtitle(getString(R.string.last_trade) + currentStock.getLastTradeDateTimeLong());
 
         getChartData();
 

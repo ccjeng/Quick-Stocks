@@ -203,7 +203,7 @@
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_width="match_parent"
-            android:layout_height="250dp">
+            android:layout_height="350dp">
 
             <ListView
                 android:background="@color/white"

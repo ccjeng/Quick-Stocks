@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,15 +17,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.controller.FinanceItemsAdapter;
 import com.ccjeng.stock.controller.SearchAutoCompleterAdapter;
 import com.ccjeng.stock.controller.StockQuoteAPI;
 import com.ccjeng.stock.model.FinanceItem;
+import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
-import com.ccjeng.stock.model.quotes.Quote;
 import com.ccjeng.stock.utils.PreferencesManager;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 
@@ -102,7 +100,7 @@ public class MainActivity extends AppCompatActivity
 
         gotQuotesCallback = new IStockQuoteCallback() {
             @Override
-            public void onQueryReceived(ArrayList<Quote> stockItems) {
+            public void onQueryReceived(ArrayList<StockQuote> stockItems) {
                 financeItemsAdapter.clear();
                 financeItemsAdapter.addAll(stockItems);
                 financeItemsAdapter.notifyDataSetChanged();
@@ -110,6 +108,10 @@ public class MainActivity extends AppCompatActivity
         };
         StockQuoteAPI stockQuoteAPI = new StockQuoteAPI(stocksList.toArray(new String[stocksList.size()]));
         stockQuoteAPI.getStockQuote(gotQuotesCallback);
+
+        //StockQuoteAPI_Test stockQuoteAPITest = new StockQuoteAPI_Test(stocksList.toArray(new String[stocksList.size()]));
+        //stockQuoteAPITest.getStockQuote(gotQuotesCallback);
+
 
     }
 

@@ -27,12 +27,12 @@
 
     <string name="prev_close">Prev Close</string>
     <string name="eps">EPS</string>
-    <string name="exchange">Exchange</string>
-    <string name="last_trade">Last Trade</string>
-    <string name="ask">Ask</string>
-    <string name="bid">Bid</string>
-    <string name="market_capital">MarketCapital</string>
-    <string name="pe_ratio">PE Ratio</string>
+    <string name="beta">Beta</string>
+    <string name="divyi">Div/Yield</string>
+    <string name="shares">Shares</string>
+    <string name="market_capital">Mkt cap</string>
+    <string name="pe_ratio">P/E</string>
+    <string name="last_trade">Last Trade : </string>
 
 
     <string name="title_activity_activity_webview">ActivityWebview</string>

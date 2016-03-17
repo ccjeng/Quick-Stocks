@@ -1,7 +1,6 @@
 package com.ccjeng.stock.model.interfaces;
 
-import com.ccjeng.stock.model.quotes.Quote;
-
+import com.ccjeng.stock.model.google.StockQuote;
 import java.util.ArrayList;
 
 /**
@@ -9,6 +8,6 @@ import java.util.ArrayList;
  */
 public interface IStockQuoteCallback {
 
-    public void onQueryReceived(ArrayList<Quote> stockItems);
+    public void onQueryReceived(ArrayList<StockQuote> stockItems);
 
 }

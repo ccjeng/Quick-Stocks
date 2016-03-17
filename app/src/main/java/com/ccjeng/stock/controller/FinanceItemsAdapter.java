@@ -8,10 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.view.MainActivity;
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.model.FinanceItem;
-import com.ccjeng.stock.model.quotes.Quote;
 import com.ccjeng.stock.utils.PreferencesManager;
 import com.nhaarman.listviewanimations.util.Swappable;
 
@@ -69,16 +69,16 @@ public class FinanceItemsAdapter extends ArrayAdapter<FinanceItem> implements Sw
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if (financeItem instanceof Quote) {
+        if (financeItem instanceof StockQuote) {
 
-            viewHolder.tvName.setText(((Quote) financeItem).getName());
-            viewHolder.tvSymbol.setText(((Quote) financeItem).getSymbol());
-            viewHolder.tvPrice.setText(((Quote) financeItem).getLastTradePriceOnly());
-            viewHolder.tvPriceChange.setText(((Quote) financeItem).getFormatedPriceChange());
-            viewHolder.tvPriceChange.setTextColor(((Quote) financeItem).getPriceColor(context));
-            viewHolder.tvStockLetter.setText(((Quote) financeItem).getBigLetter());
-            viewHolder.tvStockLetter.setTextColor(((Quote) financeItem).getPriceColor(context));
-            viewHolder.viewPriceIndicator.setBackgroundColor(((Quote) financeItem).getPriceColor(context));
+            viewHolder.tvName.setText(((StockQuote) financeItem).getName());
+            viewHolder.tvSymbol.setText(((StockQuote) financeItem).getSymbol());
+            viewHolder.tvPrice.setText(((StockQuote) financeItem).getLastTradePrice());
+            viewHolder.tvPriceChange.setText(((StockQuote) financeItem).getFormatedPriceChange());
+            viewHolder.tvPriceChange.setTextColor(((StockQuote) financeItem).getPriceColor(context));
+         //   viewHolder.tvStockLetter.setText(((StockQuote) financeItem).getBigLetter());
+            viewHolder.tvStockLetter.setTextColor(((StockQuote) financeItem).getPriceColor(context));
+            viewHolder.viewPriceIndicator.setBackgroundColor(((StockQuote) financeItem).getPriceColor(context));
 
             if (financeItem.isRemoveMode) {
                 viewHolder.tvStockLetter.setVisibility(View.GONE);
@@ -112,7 +112,7 @@ public class FinanceItemsAdapter extends ArrayAdapter<FinanceItem> implements Sw
     public void removeItems(HashSet<Integer> financeItemsToRemove) {
         for (int position : financeItemsToRemove) {
             FinanceItem financeItem = getItem(position);
-            PreferencesManager.getInstance().removeStockSymbolFromPrefs(((Quote) financeItem).getSymbol());
+            PreferencesManager.getInstance().removeStockSymbolFromPrefs(((StockQuote) financeItem).getSymbol());
             remove(financeItem);
         }
     }
@@ -126,7 +126,7 @@ public class FinanceItemsAdapter extends ArrayAdapter<FinanceItem> implements Sw
     public void saveOrder() {
         ArrayList<String> stocksList = new ArrayList<String>();
         for (FinanceItem item : financeItems) {
-            stocksList.add(((Quote) item).getSymbol());
+            stocksList.add(((StockQuote) item).getSymbol());
         }
         PreferencesManager.getInstance().saveStockList(stocksList);
     }
