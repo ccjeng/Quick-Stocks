@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 //Retrolambda plugin
-apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 23
@@ -24,7 +24,7 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'io.reactivex:rxjava:1.1.1'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.jakewharton:butterknife:7.0.1'
@@ -39,5 +39,6 @@ dependencies {
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.3'
     compile 'joda-time:joda-time:2.9.2'
-    compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+    //  compile 'com.googlecode.juniversalchardet:juniversalchardet:1.0.3'
+    compile 'com.pnikosis:materialish-progress:1.7'
 }

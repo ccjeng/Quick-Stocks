@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -27,6 +28,7 @@ import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
 import com.ccjeng.stock.utils.PreferencesManager;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,13 +40,15 @@ public class MainActivity extends AppCompatActivity
         implements SearchView.OnQueryTextListener
         , MenuItemCompat.OnActionExpandListener
         , AdapterView.OnItemClickListener
-        , AdapterView.OnItemLongClickListener {
+        , AdapterView.OnItemLongClickListener
+        , SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = "MainActivity";
 
     public static enum Mode {
         NORMAL, REMOVE, SEARCH, SORT;
     }
+
     public static Mode mode;
 
     private static final int REMOVE_MODE_ANIMATION_DURATION = 250;
@@ -60,11 +64,10 @@ public class MainActivity extends AppCompatActivity
     public FinanceItemsAdapter financeItemsAdapter;
     private HashSet<Integer> financeItemsToRemove;
 
-    private IStockQuoteCallback gotQuotesCallback;
-
-
-    @Bind(R.id.lvFinanceItemsList) public DynamicListView lvMainListview;
+    @Bind(R.id.lvFinanceItemsList) DynamicListView lvMainListview;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
+    @Bind(R.id.swipe_container) SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,12 +85,20 @@ public class MainActivity extends AppCompatActivity
         lvMainListview.setOnItemClickListener(this);
         lvMainListview.setOnItemLongClickListener(this);
 
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_red_light,
+                android.R.color.holo_blue_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light);
+
         populateMainListview();
 
 
     }
 
     private void populateMainListview() {
+
+        progressWheel.setVisibility(View.VISIBLE);
 
         ArrayList<FinanceItem> financeItems = new ArrayList<FinanceItem>();
         if (financeItemsAdapter == null) {
@@ -98,21 +109,30 @@ public class MainActivity extends AppCompatActivity
 
         ArrayList<String> stocksList = PreferencesManager.getInstance().getStockList();
 
-        gotQuotesCallback = new IStockQuoteCallback() {
+        IStockQuoteCallback gotQuotesCallback = new IStockQuoteCallback() {
             @Override
             public void onQueryReceived(ArrayList<StockQuote> stockItems) {
                 financeItemsAdapter.clear();
                 financeItemsAdapter.addAll(stockItems);
                 financeItemsAdapter.notifyDataSetChanged();
+                progressWheel.setVisibility(View.GONE);
             }
         };
         StockQuoteAPI stockQuoteAPI = new StockQuoteAPI(stocksList.toArray(new String[stocksList.size()]));
         stockQuoteAPI.getStockQuote(gotQuotesCallback);
 
-        //StockQuoteAPI_Test stockQuoteAPITest = new StockQuoteAPI_Test(stocksList.toArray(new String[stocksList.size()]));
-        //stockQuoteAPITest.getStockQuote(gotQuotesCallback);
+    }
 
 
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                populateMainListview();
+                mSwipeLayout.setRefreshing(false);
+            }
+        }, 3000);
     }
 
     @Override
@@ -153,7 +173,7 @@ public class MainActivity extends AppCompatActivity
 
     private void startMode(Mode modeToStart) {
 
-        switch(mode){
+        switch (mode) {
             case NORMAL:
                 break;
             case REMOVE:
@@ -164,7 +184,7 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
 
-        switch(modeToStart) {
+        switch (modeToStart) {
             case NORMAL:
                 removeMenuItem.setVisible(false);
                 searchMenuItem.setVisible(true);
@@ -259,7 +279,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        switch(mode) {
+        switch (mode) {
             case NORMAL:
                 startMode(Mode.REMOVE);
                 markAsRemove(view, position);

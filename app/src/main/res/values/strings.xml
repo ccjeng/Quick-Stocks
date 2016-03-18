@@ -20,8 +20,8 @@
     <string name="week">Week</string>
     <string name="volume">Volume</string>
     <string name="open">Open</string>
-    <string name="days_high">Days High</string>
-    <string name="days_low">Days Low</string>
+    <string name="days_high">Day High</string>
+    <string name="days_low">Day Low</string>
     <string name="year_high">Year High</string>
     <string name="year_low">Year Low</string>
 
@@ -33,6 +33,7 @@
     <string name="market_capital">Mkt cap</string>
     <string name="pe_ratio">P/E</string>
     <string name="last_trade">Last Trade : </string>
+    <string name="pre_market">Pre Market : </string>
 
 
     <string name="title_activity_activity_webview">ActivityWebview</string>

@@ -2,6 +2,8 @@ package com.ccjeng.stock.view;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Handler;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +25,7 @@ import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -35,6 +38,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.pnikosis.materialishprogress.ProgressWheel;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -60,7 +64,7 @@ public class DetailActivity extends AppCompatActivity {
         YEAR5, YEAR, MONTH6, MONTH3, MONTH, DAY5, DAY
     }
 
-    public StockQuote currentStock;
+    private StockQuote currentStock;
     private GraphicType currentGraphicType;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
@@ -80,10 +84,10 @@ public class DetailActivity extends AppCompatActivity {
 
     @Bind(R.id.lvStockDetailsLeft) ListView lvLeftDetailsColumn;
     @Bind(R.id.lvStockDetailsRight) ListView lvRightDetailsColumn;
+    @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
 
     @Bind(R.id.chartStock) CombinedChart mChart;
     @Bind(R.id.barchartStock) BarChart mBarChart;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +103,21 @@ public class DetailActivity extends AppCompatActivity {
         if (getIntent().hasExtra(MainActivity.INTENT_EXTRA_STOCK)) {
             currentStock = (StockQuote) getIntent().getSerializableExtra(MainActivity.INTENT_EXTRA_STOCK);
         }
+
+        refreshData();
+
+    }
+
+    private void refreshData(){
+        progressWheel.setVisibility(View.VISIBLE);
+        setCurrentStock(currentStock);
+        getChartData();
+
+        //scroll to the top
+        scrollView.smoothScrollTo(0, 0);
+    }
+
+    private void setCurrentStock(StockQuote currentStock){
 
         tvStockName.setText(currentStock.getName());
         tvStockSymbol.setText(currentStock.getSymbol());
@@ -121,14 +140,9 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(currentStock.getSymbol());
         getSupportActionBar().setSubtitle(getString(R.string.last_trade) + currentStock.getLastTradeDateTimeLong());
 
-        getChartData();
-
-
-        //scroll to the top
-        scrollView.smoothScrollTo(0, 0);
-
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -219,12 +233,15 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onQueryReceived(ArrayList<HistoricalDataItem> items) {
                 setChart(items);
-                //setBarChart(items);
+                setBarChart(items);
             }
         };
 
         ChartDataAPI chartDataAPI = new ChartDataAPI(this, currentStock.getSymbol(), currentGraphicType);
         chartDataAPI.getChartData(gotChartDataCallback);
+
+        progressWheel.setVisibility(View.GONE);
+
     }
 
     private void setChart(ArrayList<HistoricalDataItem> stockItems){
@@ -240,7 +257,8 @@ public class DetailActivity extends AppCompatActivity {
             volumeValues.add(Float.valueOf(stockItems.get(i).getVolume()));
         }
 
-        mChart.getAxisRight().setEnabled(false);
+        mChart.getAxisLeft().setEnabled(false);
+        mChart.getAxisRight().setEnabled(true);
         mChart.setBackgroundColor(Color.WHITE);
         mChart.setDrawBorders(false);
         mChart.setDragEnabled(false);
@@ -257,6 +275,7 @@ public class DetailActivity extends AppCompatActivity {
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
+        rightAxis.setPosition(YAxis.YAxisLabelPosition.INSIDE_CHART);
 
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
@@ -268,66 +287,17 @@ public class DetailActivity extends AppCompatActivity {
         XAxis xAxis = mChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
+        Legend l = mChart.getLegend();
+        l.setEnabled(false);
+
         CombinedData data = new CombinedData(xVals);
 
         data.setData(generateLineData(stockItems));
         //data.setData(generateCandleData(stockItems));
-
+        mChart.animateX(1000);
         mChart.setData(data);
         mChart.invalidate();
 
-
-
-        /*
-        ArrayList<String> xVals = new ArrayList<String>();
-
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-
-        ArrayList<Float> closeValues = new ArrayList<Float>();;
-
-        for (int i = 0; i < stockItems.size(); i++) {
-            xVals.add(parseDateFormat(stockItems.get(i).getDate(), currentGraphicType));
-            yVals.add(new Entry(Float.valueOf(stockItems.get(i).getClose()), i));
-
-            closeValues.add(Float.valueOf(stockItems.get(i).getClose()));
-        }
-
-        LineDataSet historicalDataSet = new LineDataSet(yVals, currentStock.getName());
-        historicalDataSet.setDrawCircles(false);
-        historicalDataSet.setDrawCubic(true);
-        historicalDataSet.setDrawFilled(false);
-        //historicalDataSet.setFillAlpha(GRAPHIC_FILL_ALPHA);
-        historicalDataSet.setCubicIntensity(GRAPHIC_CUBIC_INTENSITY);
-        historicalDataSet.setLineWidth(GRAPHIC_LINE_WIDTH);
-        historicalDataSet.setColor(getResources().getColor(R.color.colorPrimary));
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(historicalDataSet);
-
-        LineData graphicLineData = new LineData(xVals, dataSets);
-
-        graphicLineData.setDrawValues(false);
-
-        YAxis mainYAxis = mChart.getAxisLeft();
-        mainYAxis.removeAllLimitLines();
-        mainYAxis.setAxisMaxValue(Collections.max(closeValues));
-        mainYAxis.setAxisMinValue(Collections.min(closeValues));
-
-        mainYAxis.setStartAtZero(false);
-
-        mChart.getAxisRight().setEnabled(false);
-        mChart.setBackgroundColor(Color.WHITE);
-        mChart.setDrawBorders(false);
-        mChart.setDragEnabled(false);
-        mChart.setTouchEnabled(false);
-        mChart.setPinchZoom(false);
-        mChart.setScaleEnabled(false);
-        mChart.setDrawGridBackground(false);
-        mChart.setDescription("");
-        mChart.setData(graphicLineData);
-        mChart.getLegend();
-        mChart.invalidate();
-        */
 
     }
 
@@ -347,7 +317,6 @@ public class DetailActivity extends AppCompatActivity {
         set.setCubicIntensity(GRAPHIC_CUBIC_INTENSITY);
         set.setLineWidth(GRAPHIC_LINE_WIDTH);
         set.setColor(getResources().getColor(R.color.colorPrimary));
-
 
         set.setDrawValues(false);
 
@@ -386,25 +355,26 @@ public class DetailActivity extends AppCompatActivity {
         //Bar Chart
         mBarChart.getAxisRight().setEnabled(false);
         mBarChart.getAxisLeft().setEnabled(false);
+        mBarChart.getXAxis().setEnabled(false);
         mBarChart.setDrawBarShadow(false);
-        mBarChart.setDrawValueAboveBar(true);
+        mBarChart.setDrawValueAboveBar(false);
         mBarChart.setDescription("");
-        // if more than 60 entries are displayed in the chart, no values will be
-        // drawn
-        mBarChart.setMaxVisibleValueCount(60);
-
         // scaling can now only be done on x- and y-axis separately
         mBarChart.setPinchZoom(false);
         mBarChart.setDrawGridBackground(false);
+        mBarChart.setMaxVisibleValueCount(1);
 
-        XAxis xAxis = mBarChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        //XAxis xAxis = mBarChart.getXAxis();
+        //xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis rightAxis = mBarChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
 
         YAxis leftAxis = mBarChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
+
+        Legend l = mBarChart.getLegend();
+        l.setEnabled(false);
 
         //XAxis
         ArrayList<String> xVals = new ArrayList<String>();
@@ -417,8 +387,10 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         BarDataSet dataset = new BarDataSet(entries, "Volume");
+        dataset.setColor(getResources().getColor(R.color.colorPrimaryDark));
         BarData barData = new BarData(xVals);
         barData.addDataSet(dataset);
+        mBarChart.animateX(1000);
         mBarChart.setData(barData);
         mBarChart.invalidate();
 

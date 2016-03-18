@@ -975,4 +975,14 @@ public class StockQuote  extends FinanceItem  {
     }
 
 
+    public String getFormatedPreMarketPriceChange() {
+        return this.getChange() + " (" + this.getChangePercent() + "%)";
+
+    }
+
+    public int getPricePreMarketColor(Context context) {
+        return this.getChange().contains("-") ? context.getResources().getColor(R.color.price_red) : context.getResources().getColor(R.color.price_green);
+
+    }
+
 }
