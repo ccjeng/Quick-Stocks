@@ -9,6 +9,6 @@ import java.util.ArrayList;
  */
 public interface IChartDataCallback {
 
-    public void onQueryReceived(ArrayList<HistoricalDataItem> items);
+    public void onQueryReceived(ArrayList<HistoricalDataItem> items, String volume);
 
 }

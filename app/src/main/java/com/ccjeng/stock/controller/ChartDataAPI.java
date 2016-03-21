@@ -1,10 +1,11 @@
 package com.ccjeng.stock.controller;
 
-import android.content.Context;
 import android.util.Log;
 
+import com.ccjeng.stock.Stock;
 import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
+import com.ccjeng.stock.model.interfaces.YahooFinanceService;
 import com.ccjeng.stock.utils.Constant;
 import com.ccjeng.stock.view.DetailActivity;
 
@@ -14,13 +15,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Locale;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import rx.Observable;
+import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -32,11 +36,10 @@ public class ChartDataAPI {
 
     private String stocksSymbol;
     private ArrayList<HistoricalDataItem> historicalDataItems;
+    private long sumVolume;
     private DetailActivity.GraphicType graphicType;
-    private DetailActivity context;
 
-    public ChartDataAPI(DetailActivity context, String stocksSymbol, DetailActivity.GraphicType graphicType) {
-        this.context = context;
+    public ChartDataAPI(String stocksSymbol, DetailActivity.GraphicType graphicType) {
         this.stocksSymbol = stocksSymbol;
         this.graphicType = graphicType;
         this.historicalDataItems = new ArrayList<HistoricalDataItem>();
@@ -44,41 +47,51 @@ public class ChartDataAPI {
 
     public void getChartData(final IChartDataCallback callback) {
 
-        final String URL  = Constant.ENDPOINT_YAHOO_CHART + stocksSymbol +"/chartdata;type=quote;range="+ getRange() + "/csv";
-        Log.d(TAG, URL);
 
-        OkHttpClient client = new OkHttpClient();
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        if (Stock.APPDEBUG) {
+            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        } else {
+            logging.setLevel(HttpLoggingInterceptor.Level.NONE);
+        }
 
-        Request request = new Request.Builder()
-                .url(URL)
+        OkHttpClient okhttpClient = new OkHttpClient.Builder()
+                .addInterceptor(logging)
                 .build();
 
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constant.ENDPOINT_YAHOO_CHART)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okhttpClient)
+                .build();
 
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                if (response.isSuccessful()) {
+        YahooFinanceService yahooFinanceService = retrofit.create(YahooFinanceService.class);
 
-                    parser(response.body().string());
+        yahooFinanceService.getChart(stocksSymbol, getRange())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<ResponseBody>() {
+                    @Override
+                    public void onCompleted() {
 
-                    // Run view-related code back on the main thread
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            callback.onQueryReceived(historicalDataItems);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(ResponseBody responseBody) {
+                        try {
+                            parser(responseBody.string());
+                            callback.onQueryReceived(historicalDataItems, withSuffix(sumVolume));
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
-                    });
-
-
-
-                }
-            }
-        });
-
+                    }
+                });
 
     }
 
@@ -94,6 +107,8 @@ public class ChartDataAPI {
 
             Boolean beginFind = false;
             String line;
+
+            sumVolume = 0;
 
             while ((line = reader.readLine()) != null) {
 
@@ -113,6 +128,9 @@ public class ChartDataAPI {
                                 line.split(",")[4],
                                 line.split(",")[5]
                         ));
+                        if (graphicType.equals(DetailActivity.GraphicType.DAY)) {
+                            sumVolume = sumVolume + Integer.valueOf(line.split(",")[5]);
+                        }
                     }
                 }
             }
@@ -160,5 +178,12 @@ public class ChartDataAPI {
         return range;
     }
 
+    private static String withSuffix(long count) {
+        if (count < 1000) return "" + count;
+        int exp = (int) (Math.log(count) / Math.log(1000));
+        return String.format(Locale.US, "%.1f%c",
+                count / Math.pow(1000, exp),
+                "kMGTPE".charAt(exp-1));
+    }
 
 }

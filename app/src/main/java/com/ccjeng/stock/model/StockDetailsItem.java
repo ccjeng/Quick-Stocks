@@ -19,13 +19,13 @@ public class StockDetailsItem {
         this.value = value;
     }
 
-    public static ArrayList<StockDetailsItem> fromDefaulrLeftColumn(Context mContext, StockQuote stock) {
+    public static ArrayList<StockDetailsItem> fromDefaulrLeftColumn(Context mContext, StockQuote stock, String volume) {
         ArrayList<StockDetailsItem> allItems = new ArrayList<StockDetailsItem>();
         allItems.add(new StockDetailsItem(mContext.getString(R.string.open), stock.getOpenPrice()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.days_high), stock.getDaysHigh()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.year_high), stock.getYearHigh()));
 
-        allItems.add(new StockDetailsItem(mContext.getString(R.string.volume), stock.getVolume()));
+        allItems.add(new StockDetailsItem(mContext.getString(R.string.volume), volume));
         allItems.add(new StockDetailsItem("AF Price", stock.getAfterHourLastTradePrice()));
         allItems.add(new StockDetailsItem("AF Change", stock.getAfterHourChange()));
         allItems.add(new StockDetailsItem("AF CP", stock.getAfterHourChangePercent()));

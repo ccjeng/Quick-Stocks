@@ -29,12 +29,10 @@ public class StockQuoteAPI {
     private static final String TAG = "StockQuoteAPI";
     private String[] stocksSymbols;
     private ArrayList<StockQuote> stockItems;
-   // private ArrayList<FinanceItem> financeItems;
 
     public StockQuoteAPI(String[] stocksSymbols) {
         this.stocksSymbols = stocksSymbols;
         this.stockItems = new ArrayList<StockQuote>();
-       // this.financeItems = new ArrayList<FinanceItem>();
     }
 
     public void getStockQuote(final IStockQuoteCallback callback) {

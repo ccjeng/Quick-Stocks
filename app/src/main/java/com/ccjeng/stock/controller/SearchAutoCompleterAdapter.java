@@ -103,9 +103,9 @@ public class SearchAutoCompleterAdapter extends BaseAdapter
                                 );
                                 item.order = SearchAutocompleteItem.MAX_ORDER;
 
-                                if (!company.getExchange().contains("BATS")) {
+                                //if (!company.getExchange().contains("BATS")) {
                                     autocompleteItems.add(item);
-                                }
+                                //}
                             }
 
                             if (autocompleteItems != null && autocompleteItems.size() > 0) {

@@ -1,5 +1,6 @@
 package com.ccjeng.stock.view;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Handler;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.controller.ChartDataAPI;
@@ -127,7 +129,7 @@ public class DetailActivity extends AppCompatActivity {
         viewPriceIndicator.setBackgroundColor(currentStock.getPriceColor(this));
 
         lvLeftDetailsColumn.setEnabled(false);
-        StockDetailsAdapter leftAdapter = new StockDetailsAdapter(this, StockDetailsItem.fromDefaulrLeftColumn(this, currentStock));
+        StockDetailsAdapter leftAdapter = new StockDetailsAdapter(this, StockDetailsItem.fromDefaulrLeftColumn(this, currentStock, "-"));
         lvLeftDetailsColumn.setAdapter(leftAdapter);
 
         lvRightDetailsColumn.setEnabled(false);
@@ -231,13 +233,20 @@ public class DetailActivity extends AppCompatActivity {
 
         IChartDataCallback gotChartDataCallback = new IChartDataCallback() {
             @Override
-            public void onQueryReceived(ArrayList<HistoricalDataItem> items) {
+            public void onQueryReceived(ArrayList<HistoricalDataItem> items, String volume) {
                 setChart(items);
                 setBarChart(items);
+
+                if (currentGraphicType.equals(GraphicType.DAY)) {
+                    lvLeftDetailsColumn.setEnabled(false);
+                    StockDetailsAdapter leftAdapter = new StockDetailsAdapter(DetailActivity.this,
+                            StockDetailsItem.fromDefaulrLeftColumn(DetailActivity.this, currentStock, volume));
+                    lvLeftDetailsColumn.setAdapter(leftAdapter);
+                }
             }
         };
 
-        ChartDataAPI chartDataAPI = new ChartDataAPI(this, currentStock.getSymbol(), currentGraphicType);
+        ChartDataAPI chartDataAPI = new ChartDataAPI(currentStock.getSymbol(), currentGraphicType);
         chartDataAPI.getChartData(gotChartDataCallback);
 
         progressWheel.setVisibility(View.GONE);
@@ -247,14 +256,14 @@ public class DetailActivity extends AppCompatActivity {
     private void setChart(ArrayList<HistoricalDataItem> stockItems){
 
         ArrayList<Float> closeValues = new ArrayList<Float>();;
-        ArrayList<Float> volumeValues = new ArrayList<Float>();;
+        //ArrayList<Float> volumeValues = new ArrayList<Float>();;
 
         //XAxis
         ArrayList<String> xVals = new ArrayList<String>();
         for (int i = 0; i < stockItems.size(); i++) {
             xVals.add(parseDateFormat(stockItems.get(i).getDate(), currentGraphicType));
             closeValues.add(Float.valueOf(stockItems.get(i).getClose()));
-            volumeValues.add(Float.valueOf(stockItems.get(i).getVolume()));
+            //volumeValues.add(Float.valueOf(stockItems.get(i).getVolume()));
         }
 
         mChart.getAxisLeft().setEnabled(false);
