@@ -84,33 +84,29 @@
                     android:text="0.12(0.24%)"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-                <!--
+
                 <TextView
-                    android:id="@+id/tvPreStockPrice"
+                    android:id="@+id/tvPreStockTime"
                     fontPath="fonts/Roboto-Regular.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/tvStockSymbol"
-                    android:layout_marginTop="5dp"
-                    android:paddingRight="10dp"
-                    android:paddingTop="3dp"
-                    android:text="0.12(0.24%)"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+                    android:layout_below="@+id/tvStockPriceChange"
+                    android:layout_toLeftOf="@+id/tvPreStockPriceChange"
+                    android:paddingBottom="5dp"
+                    android:text="100"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
                 <TextView
                     android:id="@+id/tvPreStockPriceChange"
                     fontPath="fonts/Roboto-Regular.ttf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvStockPriceChange"
                     android:layout_alignParentRight="true"
-                    android:layout_alignRight="@+id/tvPreStockPrice"
-                    android:layout_marginTop="5dp"
                     android:paddingRight="10dp"
-                    android:paddingTop="3dp"
+                    android:paddingBottom="5dp"
                     android:text="0.12(0.24%)"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
--->
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
 
                 <View
@@ -218,7 +214,7 @@
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/barchartStock"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="100dp"
                 android:layout_below="@+id/chartStock"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
@@ -227,7 +223,7 @@
             <LinearLayout
                 android:id="@+id/llDetailColumns"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="250dp"
                 android:layout_below="@+id/barchartStock"
                 android:layout_margin="5dp"
                 android:orientation="horizontal"

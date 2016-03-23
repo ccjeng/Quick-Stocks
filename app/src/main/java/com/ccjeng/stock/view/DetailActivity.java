@@ -82,6 +82,9 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.tvStockSymbol) TextView tvStockSymbol;
     @Bind(R.id.tvStockPrice) TextView tvStockPrice;
     @Bind(R.id.tvStockPriceChange) TextView tvStockPriceChange;
+    @Bind(R.id.tvPreStockTime) TextView tvPreStockTime;
+    @Bind(R.id.tvPreStockPriceChange) TextView tvPreStockPriceChange;
+
     @Bind(R.id.viewPriceIndicator) View viewPriceIndicator;
 
     @Bind(R.id.lvStockDetailsLeft) ListView lvLeftDetailsColumn;
@@ -127,6 +130,23 @@ public class DetailActivity extends AppCompatActivity {
         tvStockPriceChange.setText(currentStock.getFormatedPriceChange());
         tvStockPriceChange.setTextColor(currentStock.getPriceColor(this));
         viewPriceIndicator.setBackgroundColor(currentStock.getPriceColor(this));
+
+        //PreMarket Data
+
+        if (!currentStock.getAfterHourTime().equals("") && !currentStock.getAfterHourChange().equals("0.00")) {
+            tvPreStockTime.setVisibility(View.VISIBLE);
+            tvPreStockPriceChange.setVisibility(View.VISIBLE);
+            String preMarketTime = "Pre Market: "
+                    + currentStock.getAfterHourTime().split(",")[1].replace("EDT","") + "  "
+                    + currentStock.getAfterHourLastTradePrice() + "  ";
+
+            tvPreStockTime.setText(preMarketTime);
+            tvPreStockPriceChange.setText(currentStock.getFormatedPreMarketPriceChange());
+            tvPreStockPriceChange.setTextColor(currentStock.getPricePreMarketColor(this));
+        } else {
+            tvPreStockTime.setVisibility(View.GONE);
+            tvPreStockPriceChange.setVisibility(View.GONE);
+        }
 
         lvLeftDetailsColumn.setEnabled(false);
         StockDetailsAdapter leftAdapter = new StockDetailsAdapter(this, StockDetailsItem.fromDefaulrLeftColumn(this, currentStock, "-"));

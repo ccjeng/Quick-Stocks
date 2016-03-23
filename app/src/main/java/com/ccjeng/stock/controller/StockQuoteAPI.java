@@ -17,6 +17,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -50,14 +51,14 @@ public class StockQuoteAPI {
                     .build();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant.ENDPOINT_GOOGLE)
+                    .baseUrl(Constant.ENDPOINT_CUSTOM)
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .addConverterFactory(CleanGsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
                     .client(okhttpClient)
                     .build();
 
             GoogleFinanceService googleStockService = retrofit.create(GoogleFinanceService.class);
-            googleStockService.getStockQuotes(buildQuotesGetQuery())
+            googleStockService.getStockQuoteList(buildQuotesGetQuery())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<ArrayList<StockQuote>>() {

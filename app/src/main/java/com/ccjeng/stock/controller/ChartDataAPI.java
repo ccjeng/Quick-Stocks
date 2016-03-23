@@ -183,7 +183,7 @@ public class ChartDataAPI {
         int exp = (int) (Math.log(count) / Math.log(1000));
         return String.format(Locale.US, "%.1f%c",
                 count / Math.pow(1000, exp),
-                "kMGTPE".charAt(exp-1));
+                "KMGTPE".charAt(exp-1));
     }
 
 }

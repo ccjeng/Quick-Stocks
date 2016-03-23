@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Stock</string>
+    <string name="app_name">Quick Stock</string>
     <string name="action_search">Search</string>
-    <string name="search_title">Search Stock</string>
+    <string name="search_title">Search Stocks</string>
     <string name="search_hint">Company name</string>
     <string name="remove">Remove</string>
     <string name="edit">Edit</string>

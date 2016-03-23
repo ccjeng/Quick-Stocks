@@ -393,7 +393,10 @@ public class StockQuote  extends FinanceItem  {
         return el;
     }
     public String getAfterHourLastTradePrice() {
-        return el;
+        if (el == null)
+            return "";
+        else
+            return el;
     }
 
 
@@ -454,7 +457,10 @@ public class StockQuote  extends FinanceItem  {
         return elt;
     }
     public String getAfterHourTime() {
-        return elt;
+        if (elt == null)
+            return "";
+        else
+            return elt;
     }
 
     /**
@@ -475,7 +481,10 @@ public class StockQuote  extends FinanceItem  {
         return ec;
     }
     public String getAfterHourChange() {
-        return ec;
+        if (ec == null)
+            return "";
+        else
+            return ec;
     }
 
     /**
@@ -514,7 +523,10 @@ public class StockQuote  extends FinanceItem  {
         return ecp;
     }
     public String getAfterHourChangePercent() {
-        return ecp;
+        if (ecp == null)
+            return "";
+        else
+            return ecp;
     }
 
     /**
@@ -926,7 +938,10 @@ public class StockQuote  extends FinanceItem  {
      *     The name
      */
     public String getName() {
-        return name;
+        if (name.length() > 25)
+            return name.trim().substring(0, 25) + "..";
+        else
+            return name;
     }
 
     /**
@@ -976,12 +991,17 @@ public class StockQuote  extends FinanceItem  {
 
 
     public String getFormatedPreMarketPriceChange() {
-        return this.getChange() + " (" + this.getChangePercent() + "%)";
+        return this.getAfterHourChange() + " (" + this.getAfterHourChangePercent() + "%)";
 
     }
 
     public int getPricePreMarketColor(Context context) {
-        return this.getChange().contains("-") ? context.getResources().getColor(R.color.price_red) : context.getResources().getColor(R.color.price_green);
+        if (this.getAfterHourChange() !=null) {
+            return this.getAfterHourChange().contains("-") ? context.getResources().getColor(R.color.price_red) : context.getResources().getColor(R.color.price_green);
+        }
+        else {
+            return context.getResources().getColor(R.color.price_green);
+        }
 
     }
 

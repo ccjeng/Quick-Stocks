@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -19,5 +20,8 @@ public interface GoogleFinanceService {
 
     @GET("info?client=ig")
     Observable<ArrayList<StockQuote>> getStockQuotesIG(@Query("q") String query);
+
+    @GET("q/{symbols}")
+    Observable<ArrayList<StockQuote>> getStockQuoteList(@Path("symbols") String query);
 
 }

@@ -26,10 +26,12 @@ public class StockDetailsItem {
         allItems.add(new StockDetailsItem(mContext.getString(R.string.year_high), stock.getYearHigh()));
 
         allItems.add(new StockDetailsItem(mContext.getString(R.string.volume), volume));
-        allItems.add(new StockDetailsItem("AF Price", stock.getAfterHourLastTradePrice()));
-        allItems.add(new StockDetailsItem("AF Change", stock.getAfterHourChange()));
-        allItems.add(new StockDetailsItem("AF CP", stock.getAfterHourChangePercent()));
-        allItems.add(new StockDetailsItem("AF Time", stock.getAfterHourTime()));
+        allItems.add(new StockDetailsItem(mContext.getString(R.string.shares), stock.getShares()));
+        allItems.add(new StockDetailsItem(mContext.getString(R.string.beta), stock.getBeta()));
+
+        //  allItems.add(new StockDetailsItem("AF Price", stock.getAfterHourLastTradePrice()));
+      //  allItems.add(new StockDetailsItem("AF Change", stock.getAfterHourChange()));
+      //  allItems.add(new StockDetailsItem("AF CP", stock.getAfterHourChangePercent()));// allItems.add(new StockDetailsItem("AF Time", stock.getAfterHourTime()));
 
         return allItems;
     }
@@ -44,8 +46,6 @@ public class StockDetailsItem {
         allItems.add(new StockDetailsItem(mContext.getString(R.string.pe_ratio), stock.getPERatio()));
         //allItems.add(new StockDetailsItem(mContext.getString(R.string.divyi), stock.getDiv() +"/"+ stock.getYield()));
         allItems.add(new StockDetailsItem(mContext.getString(R.string.eps), stock.getEarningsShare()));
-        allItems.add(new StockDetailsItem(mContext.getString(R.string.shares), stock.getShares()));
-        allItems.add(new StockDetailsItem(mContext.getString(R.string.beta), stock.getBeta()));
 
         return allItems;
     }
