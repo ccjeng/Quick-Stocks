@@ -4,6 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Handler;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ccjeng.stock.R;
+import com.ccjeng.stock.adapter.TabFragmentPagerAdapter;
 import com.ccjeng.stock.controller.ChartDataAPI;
 import com.ccjeng.stock.controller.StockDetailsAdapter;
 import com.ccjeng.stock.model.HistoricalDataItem;
@@ -71,6 +75,10 @@ public class DetailActivity extends AppCompatActivity {
 
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.scrollview) ScrollView scrollView;
+
+    @Bind(R.id.sliding_tabs) TabLayout tabLayout;
+    @Bind(R.id.viewpager) ViewPager viewPager;
+
     @Bind(R.id.tvGraphicLabelDay) TextView tvGraphicLabelDay;
     @Bind(R.id.tvGraphicLabelMonth6) TextView tvGraphicLabelMonth6;
     @Bind(R.id.tvGraphicLabelMonth3) TextView tvGraphicLabelMonth3;
@@ -103,6 +111,17 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        TabFragmentPagerAdapter pagerAdapter =
+                new TabFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
+        // Iterate over all tabs and set the custom view
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+          //  tab.setCustomView(pagerAdapter.getTabView(i));
         }
 
         if (getIntent().hasExtra(MainActivity.INTENT_EXTRA_STOCK)) {
@@ -472,4 +491,6 @@ public class DetailActivity extends AppCompatActivity {
 
         return dt.toString(df);
     }
+
+
 }

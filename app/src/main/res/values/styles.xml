@@ -22,10 +22,18 @@
     <style name="AppSearchViewStyle" parent="Widget.AppCompat.SearchView">
         <item name="android:textCursorDrawable">@drawable/white_cursor</item>
         <item name="queryBackground">@android:color/transparent</item>
-        <item name="searchIcon">@drawable/icon_toolbar_search</item>
-        <item name="closeIcon">@drawable/icon_toolbar_clear</item>
+        <item name="searchIcon">@mipmap/icon_toolbar_search</item>
+        <item name="closeIcon">@mipmap/icon_toolbar_clear</item>
         <item name="queryHint">@string/search_hint</item>
         <item name="android:imeActionId">6</item>
     </style>
 
+    <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">12dp</item>
+        <item name="tabPaddingEnd">12dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+        <item name="tabSelectedTextColor">?android:textColorPrimary</item>
+    </style>
 </resources>

@@ -145,9 +145,9 @@ public class SearchAutoCompleterAdapter extends BaseAdapter
         viewHolder.tvStockExchange.setText(searchAutocompleteItem.exchange);
 
         if (PreferencesManager.getInstance().stocksSetContains(searchAutocompleteItem.symbol)) {
-            viewHolder.imgFavorite.setImageResource(R.drawable.img_checkmark_orange);
+            viewHolder.imgFavorite.setImageResource(R.mipmap.img_checkmark_orange);
         } else {
-            viewHolder.imgFavorite.setImageResource(R.drawable.img_checkmark);
+            viewHolder.imgFavorite.setImageResource(R.mipmap.img_checkmark);
         }
         return convertView;
     }

@@ -6,20 +6,20 @@
 
     <item android:id="@+id/action_search"
         android:title="@string/search_title"
-        android:icon="@drawable/icon_toolbar_search"
+        android:icon="@mipmap/icon_toolbar_search"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView" />
 
     <item
         android:id="@+id/action_remove"
         android:title="@string/remove"
-        android:icon="@drawable/icon_toolbar_remove"
+        android:icon="@mipmap/icon_toolbar_remove"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_edit"
         android:title="@string/edit"
-        android:icon="@drawable/icon_toolbar_edit"
+        android:icon="@mipmap/icon_toolbar_edit"
         app:showAsAction="ifRoom" />
 
 </menu>

@@ -2,12 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:wheel="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.DetailActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -17,8 +18,7 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-
-            <RelativeLayout
+        <RelativeLayout
                 android:id="@+id/rlTopStockCard"
                 android:layout_below="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -84,7 +84,6 @@
                     android:text="0.12(0.24%)"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-
                 <TextView
                     android:id="@+id/tvPreStockTime"
                     fontPath="fonts/Roboto-Regular.ttf"
@@ -92,7 +91,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvStockPriceChange"
                     android:layout_toLeftOf="@+id/tvPreStockPriceChange"
-                    android:paddingBottom="5dp"
                     android:text="100"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
@@ -104,20 +102,19 @@
                     android:layout_below="@+id/tvStockPriceChange"
                     android:layout_alignParentRight="true"
                     android:paddingRight="10dp"
-                    android:paddingBottom="5dp"
                     android:text="0.12(0.24%)"
                     android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
-
 
                 <View
                     android:id="@+id/viewPriceIndicator"
                     android:layout_width="match_parent"
+                    android:paddingTop="10dp"
                     android:layout_height="2dp"
                     android:layout_alignParentBottom="true"
                     android:background="@color/price_green" />
             </RelativeLayout>
 
-            <LinearLayout
+         <LinearLayout
                 android:id="@+id/llGraphicLabels"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -279,17 +276,40 @@
                 android:visibility="gone"
                 wheel:matProg_barColor="@color/colorProgress"
                 wheel:matProg_progressIndeterminate="true" />
-<!--
-            <ListView
-                android:id="@+id/lvNews"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/llDetailColumns"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="0dp"
-                android:drawSelectorOnTop="true"/>-->
 
-    </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/sliding_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/CustomTabLayout"
+                app:tabMode="scrollable" />
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/white" />
+
+        </LinearLayout>
+
+        <!--
+                    <ListView
+                        android:id="@+id/lvNews"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/llDetailColumns"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="0dp"
+                        android:drawSelectorOnTop="true"/>-->
+
+    </LinearLayout>
 </ScrollView>

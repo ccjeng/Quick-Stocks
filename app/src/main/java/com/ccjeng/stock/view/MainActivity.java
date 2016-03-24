@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity
     public static Mode mode;
 
     private static final int REMOVE_MODE_ANIMATION_DURATION = 250;
+    private static final String TOOLBAR_REMOVE_MODE_SPACES = "     ";
+
     public static final String INTENT_EXTRA_STOCK = "intentStock";
+
 
     private MenuItem editMenuItem;
     private MenuItem removeMenuItem;
@@ -189,11 +192,18 @@ public class MainActivity extends AppCompatActivity
                 removeMenuItem.setVisible(false);
                 searchMenuItem.setVisible(true);
                 editMenuItem.setVisible(false);
+                toolbar.setLogo(null);
+                toolbar.setTitle(getString(R.string.app_name));
+                toolbar.setBackgroundResource(R.color.colorPrimary);
                 break;
             case REMOVE:
                 removeMenuItem.setVisible(true);
                 searchMenuItem.setVisible(false);
                 editMenuItem.setVisible(false);
+
+                toolbar.setLogo(R.mipmap.icon_toolbar_checked);
+                toolbar.setTitle(TOOLBAR_REMOVE_MODE_SPACES + "0 " + getString(R.string.from) + " " + String.valueOf(financeItemsAdapter.getCount()));
+                toolbar.setBackgroundResource(R.color.price_red);
 
                 financeItemsToRemove.clear();
                 financeItemsAdapter.clearRemoveModes();
@@ -256,10 +266,10 @@ public class MainActivity extends AppCompatActivity
             ImageView imgAddFavorite = (ImageView) view.findViewById(R.id.imgAddFavorite);
             if (PreferencesManager.getInstance().stocksSetContains(clickedStockSymbol)) {
                 PreferencesManager.getInstance().removeStockSymbolFromPrefs(clickedStockSymbol);
-                imgAddFavorite.setImageResource(R.drawable.img_checkmark);
+                imgAddFavorite.setImageResource(R.mipmap.img_checkmark);
             } else {
                 PreferencesManager.getInstance().addStockSymbolToPrefs(clickedStockSymbol);
-                imgAddFavorite.setImageResource(R.drawable.img_checkmark_orange);
+                imgAddFavorite.setImageResource(R.mipmap.img_checkmark_orange);
             }
         } else {
 
@@ -329,7 +339,7 @@ public class MainActivity extends AppCompatActivity
             financeItemsToRemove.remove(position);
         }
 
-        //mActionBarToolbar.setTitle(TOOLBAR_REMOVE_MODE_SPACES + String.valueOf(financeItemsToRemove.size()) + " " + getString(R.string.from) + " " + String.valueOf(financeItemsAdapter.getCount()));
+        toolbar.setTitle(TOOLBAR_REMOVE_MODE_SPACES + String.valueOf(financeItemsToRemove.size()) + " " + getString(R.string.from) + " " + String.valueOf(financeItemsAdapter.getCount()));
 
     }
 }
