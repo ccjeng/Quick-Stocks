@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
@@ -26,6 +27,7 @@ import com.ccjeng.stock.controller.StockQuoteAPI;
 import com.ccjeng.stock.model.FinanceItem;
 import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
+import com.ccjeng.stock.utils.GlobalUtils;
 import com.ccjeng.stock.utils.PreferencesManager;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity
     public FinanceItemsAdapter financeItemsAdapter;
     private HashSet<Integer> financeItemsToRemove;
 
+    @Bind(R.id.main) RelativeLayout mainLayout;
     @Bind(R.id.lvFinanceItemsList) DynamicListView lvMainListview;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
@@ -94,8 +97,11 @@ public class MainActivity extends AppCompatActivity
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light);
 
-        populateMainListview();
-
+        if (GlobalUtils.isNetworkConnected(this)){
+            populateMainListview();
+        } else {
+            GlobalUtils.showErrorSnackBar(mainLayout, R.string.no_internet_connection);
+        }
 
     }
 

@@ -1,9 +1,12 @@
 package com.ccjeng.stock.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.TextView;
 
 //import com.daimajia.androidanimations.library.Techniques;
 //import com.daimajia.androidanimations.library.YoYo;
@@ -56,21 +59,6 @@ public class GlobalUtils {
         return jsonObject;
     }
 
-    public static String readJsonStringFromFile(Context mContext, String fileName) {
-        InputStream is = null;
-        String json = null;
-        try {
-            is = mContext.getAssets().open(fileName);
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
 
     public static boolean containsIgnoreCase(String src, String what) {
         final int length = what.length();
@@ -107,6 +95,18 @@ public class GlobalUtils {
             return true;
     }
 
+    public static void showErrorSnackBar(View view, int message) {
+
+        Snackbar snackbar = Snackbar
+                .make(view, message, Snackbar.LENGTH_LONG);
+        snackbar.getView().setBackgroundColor(Color.RED);
+
+        TextView tv = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextColor(Color.WHITE);
+
+        snackbar.show();
+
+    }
     /*
     public static void safeAnimate(View view, int duration, Techniques type) {
         if (view != null) {
