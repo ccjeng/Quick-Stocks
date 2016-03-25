@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
+import com.ccjeng.stock.Stock;
 import com.ccjeng.stock.controller.FinanceItemsAdapter;
 import com.ccjeng.stock.controller.SearchAutoCompleterAdapter;
 import com.ccjeng.stock.controller.StockQuoteAPI;
@@ -29,6 +30,7 @@ import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
 import com.ccjeng.stock.utils.GlobalUtils;
 import com.ccjeng.stock.utils.PreferencesManager;
+import com.google.android.gms.analytics.Tracker;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String INTENT_EXTRA_STOCK = "intentStock";
 
+    private Tracker mTracker;
 
     private MenuItem editMenuItem;
     private MenuItem removeMenuItem;
@@ -80,6 +83,10 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+
+        Stock application = (Stock) getApplication();
+        mTracker = application.getDefaultTracker();
 
         setSupportActionBar(toolbar);
 

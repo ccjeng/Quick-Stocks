@@ -14,6 +14,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
+import com.ccjeng.stock.Stock;
 import com.ccjeng.stock.controller.ChartDataAPI;
 import com.ccjeng.stock.controller.StockDetailsAdapter;
 import com.ccjeng.stock.model.HistoricalDataItem;
@@ -36,6 +37,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.android.gms.analytics.Tracker;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import org.joda.time.DateTime;
@@ -91,11 +93,16 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.chartStock) CombinedChart mChart;
     @Bind(R.id.barchartStock) BarChart mBarChart;
 
+    private Tracker mTracker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ButterKnife.bind(this);
+
+        Stock application = (Stock) getApplication();
+        mTracker = application.getDefaultTracker();
 
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
