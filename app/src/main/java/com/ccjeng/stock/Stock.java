@@ -13,6 +13,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 /**
  * Created by andycheng on 2016/3/10.
  */
+
 public class Stock extends Application {
     private static final String ROBOTO_FONT_PATH = "fonts/Roboto-Regular.ttf";
     public static final boolean APPDEBUG = BuildConfig.DEBUG;

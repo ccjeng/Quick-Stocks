@@ -98,7 +98,6 @@ public class FinanceItemsAdapter extends ArrayAdapter<FinanceItem> implements Sw
         }
     }
 
-
     @Override
     public long getItemId(int position) {
         return getItem(position).hashCode();
