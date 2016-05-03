@@ -3,16 +3,19 @@ package com.ccjeng.stock.view;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -158,6 +161,7 @@ public class MainActivity extends AppCompatActivity
         searchMenuItem = menu.findItem(R.id.action_search);
         removeMenuItem = menu.findItem(R.id.action_remove);
         editMenuItem = menu.findItem(R.id.action_edit);
+        sortAbMenuItem = menu.findItem(R.id.action_sort);
 
         // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -190,6 +194,10 @@ public class MainActivity extends AppCompatActivity
     private void startMode(Mode modeToStart) {
 
         switch (mode) {
+            case SORT:
+                //Save order before exit sort mode
+                financeItemsAdapter.saveOrder();
+                break;
             case NORMAL:
                 break;
             case REMOVE:
@@ -205,6 +213,7 @@ public class MainActivity extends AppCompatActivity
                 removeMenuItem.setVisible(false);
                 searchMenuItem.setVisible(true);
                 editMenuItem.setVisible(false);
+                sortAbMenuItem.setVisible(false);
                 toolbar.setLogo(null);
                 toolbar.setTitle(getString(R.string.app_name));
                 toolbar.setBackgroundResource(R.color.colorPrimary);
@@ -213,6 +222,7 @@ public class MainActivity extends AppCompatActivity
                 removeMenuItem.setVisible(true);
                 searchMenuItem.setVisible(false);
                 editMenuItem.setVisible(false);
+                sortAbMenuItem.setVisible(false);
 
                 toolbar.setLogo(R.mipmap.icon_toolbar_checked);
                 toolbar.setTitle(TOOLBAR_REMOVE_MODE_SPACES + "0 " + getString(R.string.from) + " " + String.valueOf(financeItemsAdapter.getCount()));
@@ -225,8 +235,23 @@ public class MainActivity extends AppCompatActivity
                 searchMenuItem.setVisible(false);
                 removeMenuItem.setVisible(false);
                 editMenuItem.setVisible(false);
+                sortAbMenuItem.setVisible(false);
                 break;
             case SORT:
+                searchMenuItem.setVisible(false);
+                removeMenuItem.setVisible(false);
+                editMenuItem.setVisible(false);
+                sortAbMenuItem.setVisible(true);
+                toolbar.setTitle(getString(R.string.drag_drop));
+                toolbar.setBackgroundResource(R.color.price_green);
+                toolbar.setLogo(null);
+
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(getResources().getColor(R.color.status_bar_green));
+                }
                 break;
         }
         mode = modeToStart;

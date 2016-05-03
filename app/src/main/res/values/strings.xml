@@ -5,6 +5,7 @@
     <string name="search_hint">Company name</string>
     <string name="remove">Remove</string>
     <string name="edit">Edit</string>
+    <string name="sort">ReOrder</string>
 
     <string name="exit">Exit</string>
     <string name="share_text">Stock Quotes - Watch your stocks in material design way!</string>

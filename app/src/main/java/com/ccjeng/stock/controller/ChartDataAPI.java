@@ -1,6 +1,5 @@
 package com.ccjeng.stock.controller;
 
-import android.util.Log;
 
 import com.ccjeng.stock.Stock;
 import com.ccjeng.stock.model.HistoricalDataItem;

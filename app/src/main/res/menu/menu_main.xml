@@ -22,4 +22,11 @@
         android:icon="@mipmap/icon_toolbar_edit"
         app:showAsAction="ifRoom" />
 
+
+    <item
+        android:id="@+id/action_sort"
+        android:title="@string/sort"
+        android:icon="@mipmap/icon_toolbar_sort"
+        app:showAsAction="always" />
+
 </menu>

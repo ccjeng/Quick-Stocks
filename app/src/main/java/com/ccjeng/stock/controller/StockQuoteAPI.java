@@ -10,14 +10,11 @@ import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
 import com.ccjeng.stock.utils.Constant;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -53,7 +50,7 @@ public class StockQuoteAPI {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(Constant.ENDPOINT_CUSTOM)
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(CleanGsonConverterFactory.create())
                     .client(okhttpClient)
                     .build();
 
