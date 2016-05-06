@@ -11,4 +11,5 @@ public class Constant {
     public final static String ENDPOINT_GOOGLE = "http://www.google.com/finance/";
     public final static String ENDPOINT_CUSTOM = "http://stockapi-ccjeng.rhcloud.com/";
 
+    public static final String ENDPOINT_YAHOO_NEWS = "https://feeds.finance.yahoo.com/rss/2.0/";
 }

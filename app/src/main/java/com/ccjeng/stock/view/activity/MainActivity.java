@@ -1,4 +1,4 @@
-package com.ccjeng.stock.view;
+package com.ccjeng.stock.view.activity;
 
 import android.app.SearchManager;
 import android.content.Context;

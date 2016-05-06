@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ccjeng.stock.model.google.StockQuote;
-import com.ccjeng.stock.view.MainActivity;
+import com.ccjeng.stock.view.activity.MainActivity;
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.model.FinanceItem;
 import com.ccjeng.stock.utils.PreferencesManager;

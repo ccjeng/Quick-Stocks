@@ -1,26 +1,34 @@
-package com.ccjeng.stock.view;
+package com.ccjeng.stock.view.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.Stock;
 import com.ccjeng.stock.controller.ChartDataAPI;
+import com.ccjeng.stock.controller.NewsAPI;
 import com.ccjeng.stock.controller.StockDetailsAdapter;
 import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.StockDetailsItem;
 import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
+import com.ccjeng.stock.model.interfaces.INewsCallback;
+import com.ccjeng.stock.model.rss.RSSFeed;
+import com.ccjeng.stock.view.adapter.NewsRSSAdapter;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
@@ -45,6 +53,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -68,7 +77,7 @@ public class DetailActivity extends AppCompatActivity {
     private GraphicType currentGraphicType;
 
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.scrollview) ScrollView scrollView;
+    @Bind(R.id.scrollview) NestedScrollView scrollView;
 
     @Bind(R.id.tvGraphicLabelDay) TextView tvGraphicLabelDay;
     @Bind(R.id.tvGraphicLabelMonth6) TextView tvGraphicLabelMonth6;
@@ -93,6 +102,8 @@ public class DetailActivity extends AppCompatActivity {
     @Bind(R.id.chartStock) CombinedChart mChart;
     @Bind(R.id.barchartStock) BarChart mBarChart;
 
+    @Bind(R.id.lvNews) RecyclerView lvNews;
+
     private Tracker mTracker;
 
     @Override
@@ -109,6 +120,10 @@ public class DetailActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        lvNews.setLayoutManager(llm);
+        lvNews.setHasFixedSize(true);
+        lvNews.setItemAnimator(new DefaultItemAnimator());
 
 
         if (getIntent().hasExtra(MainActivity.INTENT_EXTRA_STOCK)) {
@@ -125,7 +140,7 @@ public class DetailActivity extends AppCompatActivity {
         progressWheel.setVisibility(View.VISIBLE);
         setCurrentStock(currentStock);
         getChartData();
-
+        getNews();
         //scroll to the top
         scrollView.smoothScrollTo(0, 0);
     }
@@ -431,6 +446,44 @@ public class DetailActivity extends AppCompatActivity {
         mBarChart.setData(barData);
         mBarChart.invalidate();
 
+    }
+
+    private void getNews() {
+
+        INewsCallback callback = new INewsCallback() {
+            @Override
+            public void onRSSReceived(final RSSFeed rssFeed) {
+
+                NewsRSSAdapter adapter = new NewsRSSAdapter(DetailActivity.this, rssFeed);
+                lvNews.setAdapter(adapter);
+            }
+        };
+
+
+        try {
+
+            NewsAPI srv = new NewsAPI(currentStock.getSymbol());
+            srv.requestRSS(callback);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(TAG, "getFeed error = " + e.toString());
+        }
+
+    }
+
+
+    public void showNewsDetail(int position, RSSFeed rssList) {
+
+        Intent intent = new Intent();
+        intent.setClass(DetailActivity.this, NewsActivity.class);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("newsUrl", rssList.getItem(position).getLink());
+        bundle.putString("newsTitle", rssList.getItem(position).getTitle());
+
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**

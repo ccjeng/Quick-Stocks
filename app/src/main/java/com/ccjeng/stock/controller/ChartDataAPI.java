@@ -6,7 +6,7 @@ import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.ccjeng.stock.model.interfaces.YahooFinanceService;
 import com.ccjeng.stock.utils.Constant;
-import com.ccjeng.stock.view.DetailActivity;
+import com.ccjeng.stock.view.activity.DetailActivity;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
