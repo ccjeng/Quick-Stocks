@@ -1005,4 +1005,8 @@ public class StockQuote  extends FinanceItem  {
 
     }
 
+    @Override
+    public int compareTo(FinanceItem item) {
+        return this.t.compareTo(((StockQuote) item).t);
+    }
 }

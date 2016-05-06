@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -182,11 +183,39 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.equals(removeMenuItem)) {
-            financeItemsAdapter.removeItems(financeItemsToRemove);
-            financeItemsToRemove.clear();
-            startMode(Mode.NORMAL);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                switch (mode) {
+                    case NORMAL:
+                        finish();
+                        break;
+                    case SEARCH:
+                        searchMenuItem.collapseActionView();
+                        break;
+                    case SORT:
+                        financeItemsAdapter.saveOrder();
+                        startMode(Mode.NORMAL);
+                        break;
+                }
+                break;
+
+            case R.id.action_remove:
+                financeItemsAdapter.removeItems(financeItemsToRemove);
+                financeItemsToRemove.clear();
+                startMode(Mode.NORMAL);
+                break;
+            case R.id.action_sort:
+                financeItemsAdapter.orderByAlphabet();
+                financeItemsAdapter.saveOrder();
+                financeItemsAdapter.notifyDataSetChanged();
+                Log.d(TAG, "orderByAlphabet");
+                break;
+            case R.id.action_edit:
+                startMode(Mode.SORT);
+                break;
+
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -212,8 +241,11 @@ public class MainActivity extends AppCompatActivity
             case NORMAL:
                 removeMenuItem.setVisible(false);
                 searchMenuItem.setVisible(true);
-                editMenuItem.setVisible(false);
+                editMenuItem.setVisible(true);
                 sortAbMenuItem.setVisible(false);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
                 toolbar.setLogo(null);
                 toolbar.setTitle(getString(R.string.app_name));
                 toolbar.setBackgroundResource(R.color.colorPrimary);
@@ -223,7 +255,9 @@ public class MainActivity extends AppCompatActivity
                 searchMenuItem.setVisible(false);
                 editMenuItem.setVisible(false);
                 sortAbMenuItem.setVisible(false);
-
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
                 toolbar.setLogo(R.mipmap.icon_toolbar_checked);
                 toolbar.setTitle(TOOLBAR_REMOVE_MODE_SPACES + "0 " + getString(R.string.from) + " " + String.valueOf(financeItemsAdapter.getCount()));
                 toolbar.setBackgroundResource(R.color.price_red);
@@ -236,16 +270,21 @@ public class MainActivity extends AppCompatActivity
                 removeMenuItem.setVisible(false);
                 editMenuItem.setVisible(false);
                 sortAbMenuItem.setVisible(false);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
                 break;
             case SORT:
                 searchMenuItem.setVisible(false);
                 removeMenuItem.setVisible(false);
                 editMenuItem.setVisible(false);
                 sortAbMenuItem.setVisible(true);
+                if (getSupportActionBar() != null) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
                 toolbar.setTitle(getString(R.string.drag_drop));
                 toolbar.setBackgroundResource(R.color.price_green);
                 toolbar.setLogo(null);
-
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = getWindow();
@@ -286,13 +325,24 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if (mode == Mode.SEARCH) {
-            searchMenuItem.collapseActionView();
-        } else if (mode != Mode.NORMAL) {
-            startMode(Mode.NORMAL);
-        } else {
-            finish();
+
+        switch (mode) {
+            case NORMAL:
+                finish();
+                break;
+            case SEARCH:
+                searchMenuItem.collapseActionView();
+                break;
+            case SORT:
+                financeItemsAdapter.saveOrder();
+                startMode(Mode.NORMAL);
+                break;
+            case REMOVE:
+                startMode(Mode.NORMAL);
+                break;
+
         }
+
     }
 
     @Override
@@ -334,6 +384,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case REMOVE:
                 markAsRemove(view, position);
+                break;
+            case SORT:
+                lvMainListview.startDragging(position);
                 break;
 
         }

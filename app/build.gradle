@@ -7,8 +7,8 @@ android {
         applicationId "com.ccjeng.stock"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 1
-        versionName '1.0.0.032516QS'
+        versionCode 2
+        versionName '1.1.0.050616QS'
     }
     buildTypes {
         release {
