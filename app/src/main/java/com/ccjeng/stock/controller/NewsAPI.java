@@ -3,10 +3,10 @@ package com.ccjeng.stock.controller;
 import android.util.Log;
 
 import com.ccjeng.stock.Stock;
+import com.ccjeng.stock.controller.rss.RSSHandler;
+import com.ccjeng.stock.model.interfaces.GoogleFinanceService;
 import com.ccjeng.stock.model.interfaces.INewsCallback;
 import com.ccjeng.stock.model.rss.RSSFeed;
-import com.ccjeng.stock.controller.rss.RSSHandler;
-import com.ccjeng.stock.model.interfaces.YahooFinanceService;
 import com.ccjeng.stock.utils.Constant;
 
 import org.xml.sax.InputSource;
@@ -54,14 +54,14 @@ public class NewsAPI {
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constant.ENDPOINT_YAHOO_NEWS)
+                .baseUrl(Constant.ENDPOINT_GOOGLE)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okhttpClient)
                 .build();
 
-        YahooFinanceService yahooFinanceService = retrofit.create(YahooFinanceService.class);
+        GoogleFinanceService googleFinanceService = retrofit.create(GoogleFinanceService.class);
 
-        yahooFinanceService.getNews(stocksSymbol)
+        googleFinanceService.getNews(stocksSymbol)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<ResponseBody>() {

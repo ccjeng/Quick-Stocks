@@ -1,6 +1,7 @@
 package com.ccjeng.stock.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,6 @@ import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.model.rss.RSSFeed;
-
 import com.ccjeng.stock.view.activity.DetailActivity;
 import com.squareup.picasso.Picasso;
 
@@ -36,7 +36,7 @@ public class NewsRSSAdapter extends RecyclerView.Adapter<NewsRSSAdapter.CustomVi
 	public void onBindViewHolder(CustomViewHolder customViewHolder, int i) {
 
 		//Setting text view title
-		customViewHolder.titleView.setText(items.getItem(i).getTitle());
+		customViewHolder.titleView.setText(Html.fromHtml(items.getItem(i).getTitle()));
 
 		if (items.getItem(i).getPubDate().length()==0) {
 			customViewHolder.dateView.setVisibility(View.GONE);
@@ -47,7 +47,7 @@ public class NewsRSSAdapter extends RecyclerView.Adapter<NewsRSSAdapter.CustomVi
 		if (items.getItem(i).getDescription().length()==0) {
 			customViewHolder.descrView.setVisibility(View.GONE);
 		} else {
-			customViewHolder.descrView.setText(items.getItem(i).getDescription());
+			customViewHolder.descrView.setText(Html.fromHtml(items.getItem(i).getDescription()));
 		}
 
 		if (items.getItem(i).getImg().length()==0) {

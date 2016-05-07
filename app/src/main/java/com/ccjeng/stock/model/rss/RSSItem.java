@@ -49,12 +49,6 @@ public class RSSItem {
 		Element image = doc.select("img").first();
 		String descr = doc.text().trim();
 
-		if (descr.length()>0) {
-			if (descr.length() > maxDescrLength) {
-				descr = descr.substring(0, maxDescrLength);
-			}
-		}
-
 		String imgURL = "";
 		if (image != null) {
 			imgURL = image.absUrl("src");
