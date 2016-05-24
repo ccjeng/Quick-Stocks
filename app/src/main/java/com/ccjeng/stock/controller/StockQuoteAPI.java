@@ -3,6 +3,7 @@ package com.ccjeng.stock.controller;
 import android.util.Log;
 
 import com.ccjeng.stock.Stock;
+import com.ccjeng.stock.controller.CleanGsonConverter.CleanGsonConverterFactory;
 import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.GoogleFinanceService;
 import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
@@ -14,7 +15,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -48,14 +48,14 @@ public class StockQuoteAPI {
                     .build();
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constant.ENDPOINT_CUSTOM)
+                    .baseUrl(Constant.ENDPOINT_GOOGLE)
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(CleanGsonConverterFactory.create())
                     .client(okhttpClient)
                     .build();
 
             GoogleFinanceService googleStockService = retrofit.create(GoogleFinanceService.class);
-            googleStockService.getStockQuoteList(buildQuotesGetQuery())
+            googleStockService.getStockQuotes(buildQuotesGetQuery())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Subscriber<ArrayList<StockQuote>>() {
@@ -76,8 +76,6 @@ public class StockQuoteAPI {
                                 Log.d(TAG, item.getName());
                                 callback.onQueryReceived(stockQuotes);
                             }
-
-                            //callback.onQueryReceived(stockQuote);
 
                         }
                     });
