@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
@@ -39,7 +40,7 @@ public class NewsActivity extends AppCompatActivity {
         newsUrl = bundle.getString("newsUrl");
         newsTitle = bundle.getString("newsTitle");
 
-        getSupportActionBar().setTitle(newsTitle);
+        getSupportActionBar().setTitle(Html.fromHtml(newsTitle));
 
         setWebView();
     }
