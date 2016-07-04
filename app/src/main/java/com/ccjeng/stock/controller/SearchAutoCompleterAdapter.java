@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.Stock;
-import com.ccjeng.stock.model.interfaces.CompanyLookupService;
 import com.ccjeng.stock.model.CompanyLookup;
 import com.ccjeng.stock.model.SearchAutocompleteItem;
+import com.ccjeng.stock.model.interfaces.CompanyLookupService;
 import com.ccjeng.stock.utils.Constant;
 import com.ccjeng.stock.utils.PreferencesManager;
 import com.nhaarman.listviewanimations.util.Swappable;
