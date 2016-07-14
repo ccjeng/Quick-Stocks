@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Quick Stocks</string>
+    <string name="app_name">US Stocks</string>
     <string name="action_search">Search</string>
     <string name="search_title">Search Stock</string>
     <string name="search_hint">Company name</string>

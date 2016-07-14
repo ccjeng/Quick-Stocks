@@ -8,11 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ccjeng.stock.model.google.StockQuote;
-import com.ccjeng.stock.view.activity.MainActivity;
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.model.FinanceItem;
+import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.utils.PreferencesManager;
+import com.ccjeng.stock.view.activity.MainActivity;
 import com.nhaarman.listviewanimations.util.Swappable;
 
 import java.util.ArrayList;
@@ -109,11 +109,13 @@ public class FinanceItemsAdapter extends ArrayAdapter<FinanceItem> implements Sw
     }
 
     public void removeItems(HashSet<Integer> financeItemsToRemove) {
+
         for (int position : financeItemsToRemove) {
             FinanceItem financeItem = getItem(position);
             PreferencesManager.getInstance().removeStockSymbolFromPrefs(((StockQuote) financeItem).getSymbol());
-            remove(financeItem);
+            //remove(getItem(i));
         }
+
     }
 
     @Override

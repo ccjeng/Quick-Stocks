@@ -200,6 +200,8 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.action_remove:
                 financeItemsAdapter.removeItems(financeItemsToRemove);
+                //refresh data
+                populateMainListview();
                 financeItemsToRemove.clear();
                 startMode(Mode.NORMAL);
                 break;
