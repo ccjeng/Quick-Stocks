@@ -1,7 +1,7 @@
-# Quick Stocks
+# US Stocks
 [![Build Status](https://travis-ci.org/ccjeng/Quick-Stocks.svg?branch=master)](https://travis-ci.org/ccjeng/Quick-Stocks)
 
-Quick Stocks is stock quotes tracker Android app which allows you to follow US stocks in simple way. 
+US Stocks is stock quotes tracker Android app which allows you to follow US stocks in simple way. 
 
 Inspired by TinyStockQuotes
 * Change to realtime data sources
