@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -33,6 +32,7 @@ import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
 import com.ccjeng.stock.utils.GlobalUtils;
 import com.ccjeng.stock.utils.PreferencesManager;
+import com.ccjeng.stock.view.base.BaseActivity;
 import com.google.android.gms.analytics.Tracker;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
@@ -43,7 +43,7 @@ import java.util.HashSet;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements SearchView.OnQueryTextListener
         , MenuItemCompat.OnActionExpandListener
         , AdapterView.OnItemClickListener
@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
 
         Stock application = (Stock) getApplication();
         mTracker = application.getDefaultTracker();
@@ -368,7 +367,9 @@ public class MainActivity extends AppCompatActivity
             } else {
                 //Toast.makeText(this, financeItemsAdapter.getItem(position).toString(), Toast.LENGTH_LONG).show();
 
-                Intent startIntent = new Intent(this, DetailActivity.class);
+                //Intent startIntent = new Intent(this, DetailActivity.class);
+                Intent startIntent = new Intent(this, StockMainActivity.class);
+
                 startIntent.putExtra(INTENT_EXTRA_STOCK, financeItemsAdapter.getItem(position));
                 startActivity(startIntent);
 

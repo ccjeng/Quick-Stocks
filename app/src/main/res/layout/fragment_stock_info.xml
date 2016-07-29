@@ -1,0 +1,272 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                xmlns:wheel="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context="com.ccjeng.stock.view.activity.StockMainActivity$PlaceholderFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlTopStockCard"
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:layout_margin="5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/tvStockName"
+                    fontPath="fonts/Roboto-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:text="Apple"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/symbol_black"/>
+
+                <TextView
+                    android:id="@+id/tvStockSymbol"
+                    fontPath="fonts/Roboto-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tvStockName"
+                    android:layout_marginTop="8dp"
+                    android:layout_toLeftOf="@+id/tvStockPriceChange"
+                    android:ellipsize="end"
+                    android:gravity="left"
+                    android:maxLines="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="APPL"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/company_name_gray"/>
+
+                <TextView
+                    android:id="@+id/tvStockPrice"
+                    fontPath="fonts/Roboto-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingRight="10dp"
+                    android:paddingTop="13dp"
+                    android:text="115.08"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/symbol_black"/>
+
+
+                <TextView
+                    android:id="@+id/tvStockPriceChange"
+                    fontPath="fonts/Roboto-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tvStockPrice"
+                    android:layout_marginTop="5dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="3dp"
+                    android:text="0.12(0.24%)"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+
+                <TextView
+                    android:id="@+id/tvPreStockTime"
+                    fontPath="fonts/Roboto-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvStockPriceChange"
+                    android:layout_toLeftOf="@+id/tvPreStockPriceChange"
+                    android:text="100"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+                <TextView
+                    android:id="@+id/tvPreStockPriceChange"
+                    fontPath="fonts/Roboto-Regular.ttf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tvStockPriceChange"
+                    android:paddingRight="10dp"
+                    android:text="0.12(0.24%)"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+
+                <View
+                    android:id="@+id/viewPriceIndicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/price_green"
+                    android:paddingTop="10dp"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llGraphicLabels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlTopStockCard"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    android:id="@+id/tvGraphicLabelDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:onClick="onClickGraphicLabel"
+                    android:text="@string/grpah_day"
+                    android:textColor="@color/symbol_black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tvGraphicLabelDay5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:onClick="onClickGraphicLabel"
+                    android:text="@string/grpah_day5"
+                    android:textColor="@color/sliding_menu_text_color"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvGraphicLabelMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:onClick="onClickGraphicLabel"
+                    android:text="@string/grpah_month"
+                    android:textColor="@color/sliding_menu_text_color"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvGraphicLabelMonth3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:onClick="onClickGraphicLabel"
+                    android:text="@string/grpah_month3"
+                    android:textColor="@color/sliding_menu_text_color"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvGraphicLabelMonth6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:onClick="onClickGraphicLabel"
+                    android:text="@string/grpah_month6"
+                    android:textColor="@color/sliding_menu_text_color"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvGraphicLabelYear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="25dp"
+                    android:onClick="onClickGraphicLabel"
+                    android:text="@string/grpah_year"
+                    android:textColor="@color/sliding_menu_text_color"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:id="@+id/tvGraphicLabelYear5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onClickGraphicLabel"
+                    android:text="@string/grpah_year5"
+                    android:textColor="@color/sliding_menu_text_color"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <com.github.mikephil.charting.charts.CombinedChart
+                android:id="@+id/chartStock"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/llGraphicLabels"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/white"/>
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/barchartStock"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_below="@+id/chartStock"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:id="@+id/llDetailColumns"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/barchartStock"
+                android:layout_margin="5dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <ListView
+                    android:id="@+id/lvStockDetailsLeft"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="2.5dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/white"
+                    android:clickable="false"
+                    android:divider="@android:color/transparent"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
+
+                <ListView
+                    android:id="@+id/lvStockDetailsRight"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/barchartStock"
+                    android:layout_marginLeft="2.5dp"
+                    android:layout_toRightOf="@id/lvStockDetailsLeft"
+                    android:layout_weight="0.5"
+                    android:background="@color/white"
+                    android:clickable="false"
+                    android:divider="@android:color/transparent"
+                    android:orientation="vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"/>
+
+            </LinearLayout>
+
+            <com.pnikosis.materialishprogress.ProgressWheel
+                android:id="@+id/progress_wheel"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_below="@id/llDetailColumns"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                wheel:matProg_barColor="@color/colorProgress"
+                wheel:matProg_progressIndeterminate="true"/>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</RelativeLayout>

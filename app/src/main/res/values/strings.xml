@@ -51,5 +51,12 @@
     <string name="welcome_message">Tiny Stock Quotes is tiny app which allows you follow any NASDAQ stock in simple and comfortable way. It is totally free, open-source and contains no advertising. App is still in beta, so I am open to any feedback.</string>
     <string name="feedback">Feedback</string>
     <string name="send_email">Send Email</string>
+    <string name="title_activity_stock_main">StockMainActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
+
+    <string name="info">Info</string>
+    <string name="news">News</string>
+    <string name="others">Others</string>
 </resources>

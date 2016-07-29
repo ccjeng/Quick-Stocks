@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.Stock;
-import com.ccjeng.stock.controller.ChartDataAPI;
 import com.ccjeng.stock.controller.NewsAPI;
 import com.ccjeng.stock.controller.StockDetailsAdapter;
 import com.ccjeng.stock.model.HistoricalDataItem;
@@ -28,7 +26,7 @@ import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.ccjeng.stock.model.interfaces.INewsCallback;
 import com.ccjeng.stock.model.rss.RSSFeed;
-import com.ccjeng.stock.view.adapter.NewsRSSAdapter;
+import com.ccjeng.stock.view.base.BaseActivity;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.CombinedChart.DrawOrder;
@@ -61,7 +59,7 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity {
 
     private static final String TAG = "DetailActivity";
 
@@ -289,8 +287,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         };
 
-        ChartDataAPI chartDataAPI = new ChartDataAPI(currentStock.getSymbol(), currentGraphicType);
-        chartDataAPI.getChartData(gotChartDataCallback);
+        //ChartDataAPI chartDataAPI = new ChartDataAPI(currentStock.getSymbol(), currentGraphicType);
+        //chartDataAPI.getChartData(gotChartDataCallback);
 
         progressWheel.setVisibility(View.GONE);
 
@@ -454,8 +452,8 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onRSSReceived(final RSSFeed rssFeed) {
 
-                NewsRSSAdapter adapter = new NewsRSSAdapter(DetailActivity.this, rssFeed);
-                lvNews.setAdapter(adapter);
+                //NewsRSSAdapter adapter = new NewsRSSAdapter(DetailActivity.this, rssFeed);
+                //lvNews.setAdapter(adapter);
             }
         };
 

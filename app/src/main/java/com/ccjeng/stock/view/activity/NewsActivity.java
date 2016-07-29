@@ -2,7 +2,6 @@ package com.ccjeng.stock.view.activity;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
@@ -11,12 +10,13 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.ccjeng.stock.R;
+import com.ccjeng.stock.view.base.BaseActivity;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NewsActivity extends AppCompatActivity {
+public class NewsActivity extends BaseActivity {
 
     @Bind(R.id.webview) WebView webView;
     @Bind(R.id.toolbar) Toolbar toolbar;

@@ -10,16 +10,14 @@ import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.model.rss.RSSFeed;
-import com.ccjeng.stock.view.activity.DetailActivity;
-import com.squareup.picasso.Picasso;
 
 public class NewsRSSAdapter extends RecyclerView.Adapter<NewsRSSAdapter.CustomViewHolder> {
 	private static final String TAG = "NewsListAdapter";
-	private final DetailActivity context;
+	//private StockMainActivity context;
 	private final RSSFeed items;
 	
-	public NewsRSSAdapter(DetailActivity context, RSSFeed list) {
-		  this.context = context;
+	public NewsRSSAdapter(RSSFeed list) {
+		 // this.context = context;
 		  this.items = list;
 	 }
 
@@ -54,11 +52,11 @@ public class NewsRSSAdapter extends RecyclerView.Adapter<NewsRSSAdapter.CustomVi
 			customViewHolder.imageView.setVisibility(View.GONE);
 		} else {
 			//Load image
-			Picasso.with(context)
+		/*	Picasso.with(context)
 					.load(items.getItem(i).getImg())
 					.resize(72,72)
 					.centerInside()
-					.into(customViewHolder.imageView);
+					.into(customViewHolder.imageView);*/
 		}
 	}
 
@@ -86,7 +84,7 @@ public class NewsRSSAdapter extends RecyclerView.Adapter<NewsRSSAdapter.CustomVi
         @Override
         public void onClick(View view) {
             int position = getLayoutPosition(); // gets item position
-            context.showNewsDetail(position, items);
+          //  context.showNewsDetail(position, items);
         }
 	}
 

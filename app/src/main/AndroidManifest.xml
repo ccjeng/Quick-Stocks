@@ -27,6 +27,11 @@
             android:configChanges="orientation|screenSize"/>
         <activity android:name=".view.activity.NewsActivity">
         </activity>
+        <activity
+            android:name=".view.activity.StockMainActivity"
+            android:label="@string/title_activity_stock_main"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

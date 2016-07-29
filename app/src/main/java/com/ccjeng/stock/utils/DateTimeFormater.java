@@ -2,7 +2,10 @@ package com.ccjeng.stock.utils;
 
 import android.util.Log;
 
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,4 +49,44 @@ public class DateTimeFormater {
 
         //return strDT;
     }
+
+
+    public static String parseDateFormat(String s, Constant.GraphicType graphicType) {
+
+        String dateValue = s;
+
+        switch (graphicType) {
+            case DAY:
+                dateValue = convertDateTime(s);
+                break;
+            case DAY5:
+                dateValue = convertDateTime(s).substring(0, 4);
+                break;
+            case MONTH:
+            case MONTH3:
+            case MONTH6:
+                dateValue = s.substring(4, 8);
+                break;
+            case YEAR:
+            case YEAR5:
+                dateValue = s.substring(0, 6);
+                break;
+        }
+
+        //Log.d(TAG, s + " = " + dateValue);
+
+        return dateValue;
+    }
+
+
+    private static String convertDateTime(String timestamp) {
+
+        Date date = new Date(Long.valueOf(timestamp)* 1000);
+        DateTimeFormatter df = DateTimeFormat.forPattern("MMdd HH:mm");
+        DateTimeZone timeZone = DateTimeZone.forID( "America/New_York" );
+        DateTime dt = new DateTime( date, timeZone );
+
+        return dt.toString(df);
+    }
+
 }

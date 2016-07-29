@@ -6,7 +6,6 @@ import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.ccjeng.stock.model.interfaces.YahooFinanceService;
 import com.ccjeng.stock.utils.Constant;
-import com.ccjeng.stock.view.activity.DetailActivity;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -36,9 +35,9 @@ public class ChartDataAPI {
     private String stocksSymbol;
     private ArrayList<HistoricalDataItem> historicalDataItems;
     private long sumVolume;
-    private DetailActivity.GraphicType graphicType;
+    private Constant.GraphicType graphicType;
 
-    public ChartDataAPI(String stocksSymbol, DetailActivity.GraphicType graphicType) {
+    public ChartDataAPI(String stocksSymbol, Constant.GraphicType graphicType) {
         this.stocksSymbol = stocksSymbol;
         this.graphicType = graphicType;
         this.historicalDataItems = new ArrayList<HistoricalDataItem>();
@@ -116,7 +115,7 @@ public class ChartDataAPI {
                 }
 
                 if (beginFind) {
-                    //Log.d(TAG, line);
+                   // Log.d(TAG, line);
 
                     if (!line.startsWith("volume:")) {
                         historicalDataItems.add(new HistoricalDataItem(
@@ -127,7 +126,7 @@ public class ChartDataAPI {
                                 line.split(",")[4],
                                 line.split(",")[5]
                         ));
-                        if (graphicType.equals(DetailActivity.GraphicType.DAY)) {
+                        if (graphicType.equals(Constant.GraphicType.DAY)) {
                             sumVolume = sumVolume + Integer.valueOf(line.split(",")[5]);
                         }
                     }
@@ -178,6 +177,7 @@ public class ChartDataAPI {
     }
 
     private static String withSuffix(long count) {
+
         if (count < 1000) return "" + count;
         int exp = (int) (Math.log(count) / Math.log(1000));
         return String.format(Locale.US, "%.1f%c",

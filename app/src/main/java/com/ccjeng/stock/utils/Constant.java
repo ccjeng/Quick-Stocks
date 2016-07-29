@@ -12,4 +12,9 @@ public class Constant {
     public final static String ENDPOINT_GOOGLE = "http://www.google.com/finance/";
     public final static String ENDPOINT_CUSTOM = "http://stockapi-ccjeng.rhcloud.com/";
 
+
+    public static enum GraphicType {
+        YEAR5, YEAR, MONTH6, MONTH3, MONTH, DAY5, DAY
+    }
+
 }
