@@ -129,7 +129,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="25dp"
-                    android:onClick="onClickGraphicLabel"
                     android:text="@string/grpah_day"
                     android:textColor="@color/symbol_black"
                     android:textSize="14sp"
@@ -140,7 +139,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="25dp"
-                    android:onClick="onClickGraphicLabel"
                     android:text="@string/grpah_day5"
                     android:textColor="@color/sliding_menu_text_color"
                     android:textSize="14sp"/>
@@ -150,7 +148,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="25dp"
-                    android:onClick="onClickGraphicLabel"
                     android:text="@string/grpah_month"
                     android:textColor="@color/sliding_menu_text_color"
                     android:textSize="14sp"/>
@@ -160,7 +157,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="25dp"
-                    android:onClick="onClickGraphicLabel"
                     android:text="@string/grpah_month3"
                     android:textColor="@color/sliding_menu_text_color"
                     android:textSize="14sp"/>
@@ -170,7 +166,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="25dp"
-                    android:onClick="onClickGraphicLabel"
                     android:text="@string/grpah_month6"
                     android:textColor="@color/sliding_menu_text_color"
                     android:textSize="14sp"/>
@@ -180,7 +175,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="25dp"
-                    android:onClick="onClickGraphicLabel"
                     android:text="@string/grpah_year"
                     android:textColor="@color/sliding_menu_text_color"
                     android:textSize="14sp"/>
@@ -189,7 +183,6 @@
                     android:id="@+id/tvGraphicLabelYear5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:onClick="onClickGraphicLabel"
                     android:text="@string/grpah_year5"
                     android:textColor="@color/sliding_menu_text_color"
                     android:textSize="14sp"/>

@@ -84,6 +84,57 @@ public class StockInfoFragment {
         tvGraphicLabelYear = (TextView) view.findViewById(R.id.tvGraphicLabelYear);
         tvGraphicLabelYear5 = (TextView) view.findViewById(R.id.tvGraphicLabelYear5);
         tvGraphicLabelDay5 = (TextView) view.findViewById(R.id.tvGraphicLabelDay5);
+
+        tvGraphicLabelDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickGraphicLabel(view);
+            }
+        });
+
+        tvGraphicLabelMonth6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickGraphicLabel(view);
+            }
+        });
+
+        tvGraphicLabelMonth3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickGraphicLabel(view);
+            }
+        });
+
+        tvGraphicLabelMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickGraphicLabel(view);
+            }
+        });
+
+        tvGraphicLabelYear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickGraphicLabel(view);
+            }
+        });
+
+        tvGraphicLabelYear5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickGraphicLabel(view);
+            }
+        });
+
+        tvGraphicLabelDay5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickGraphicLabel(view);
+            }
+        });
+
+
         tvStockName = (TextView) view.findViewById(R.id.tvStockName);
         tvStockSymbol = (TextView) view.findViewById(R.id.tvStockSymbol);
         tvStockPrice = (TextView) view.findViewById(R.id.tvStockPrice);

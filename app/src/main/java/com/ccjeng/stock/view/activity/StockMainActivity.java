@@ -74,7 +74,6 @@ public class StockMainActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(currentStock.getSymbol());
         getSupportActionBar().setSubtitle(getString(R.string.last_trade) + currentStock.getLastTradeDateTimeLong());
 
-
     }
 
 
