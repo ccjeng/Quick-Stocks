@@ -17,6 +17,7 @@ import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IChartDataCallback;
 import com.ccjeng.stock.utils.Constant;
 import com.ccjeng.stock.utils.DateTimeFormater;
+import com.ccjeng.stock.utils.GlobalUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.Legend;
@@ -192,7 +193,8 @@ public class StockInfoFragment {
         StockDetailsAdapter rightAdapter = new StockDetailsAdapter(context, StockDetailsItem.fromDefaulrRightColumn(context, currentStock));
         lvRightDetailsColumn.setAdapter(rightAdapter);
 
-        currentGraphicType = Constant.GraphicType.DAY;
+       //currentGraphicType = Constant.GraphicType.DAY;
+        currentGraphicType = GlobalUtils.getChartPeroid(context);
 
     }
 

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,11 +16,12 @@ import android.view.ViewGroup;
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.utils.CustomPagerEnum;
+import com.ccjeng.stock.view.base.BaseActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class StockMainActivity extends AppCompatActivity {
+public class StockMainActivity extends BaseActivity {
 
     private static final String TAG = "StockMainActivity";
 
@@ -65,10 +65,8 @@ public class StockMainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(mViewPager);
 
         if (getIntent().hasExtra(MainActivity.INTENT_EXTRA_STOCK)) {
-          //  currentStock = (StockQuote) getIntent().getSerializableExtra(MainActivity.INTENT_EXTRA_STOCK);
+            currentStock = (StockQuote) getIntent().getSerializableExtra(MainActivity.INTENT_EXTRA_STOCK);
         }
-
-        currentStock = (StockQuote) getIntent().getSerializableExtra(MainActivity.INTENT_EXTRA_STOCK);
 
         //set toolbar title
         getSupportActionBar().setTitle(currentStock.getSymbol());
@@ -114,7 +112,6 @@ public class StockMainActivity extends AppCompatActivity {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-
             fragment.setArguments(args);
             return fragment;
         }

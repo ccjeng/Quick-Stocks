@@ -3,11 +3,16 @@ package com.ccjeng.stock.view.activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
@@ -34,6 +38,10 @@ import com.ccjeng.stock.utils.GlobalUtils;
 import com.ccjeng.stock.utils.PreferencesManager;
 import com.ccjeng.stock.view.base.BaseActivity;
 import com.google.android.gms.analytics.Tracker;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
@@ -75,11 +83,15 @@ public class MainActivity extends BaseActivity
     public FinanceItemsAdapter financeItemsAdapter;
     private HashSet<Integer> financeItemsToRemove;
 
-    @Bind(R.id.main) RelativeLayout mainLayout;
+    @Bind(R.id.main) LinearLayout mainLayout;
     @Bind(R.id.lvFinanceItemsList) DynamicListView lvMainListview;
     @Bind(R.id.toolbar) Toolbar toolbar;
     @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
     @Bind(R.id.swipe_container) SwipeRefreshLayout mSwipeLayout;
+    @Bind(R.id.navigation) NavigationView navigation;
+    @Bind(R.id.drawerlayout) DrawerLayout drawerLayout;
+
+    private ActionBarDrawerToggle actionBarDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +103,8 @@ public class MainActivity extends BaseActivity
         mTracker = application.getDefaultTracker();
 
         setSupportActionBar(toolbar);
+
+        navDrawer();
 
         mode = Mode.NORMAL;
         financeItemsToRemove = new HashSet<Integer>();
@@ -180,7 +194,14 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        actionBarDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()) {
             case android.R.id.home:
                 switch (mode) {
@@ -220,7 +241,6 @@ public class MainActivity extends BaseActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     private void startMode(Mode modeToStart) {
 
         switch (mode) {
@@ -250,6 +270,11 @@ public class MainActivity extends BaseActivity
                 toolbar.setLogo(null);
                 toolbar.setTitle(getString(R.string.app_name));
                 toolbar.setBackgroundResource(R.color.colorPrimary);
+
+                actionBarDrawerToggle.setDrawerIndicatorEnabled(true);
+                drawerLayout.setEnabled(true);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+                actionBarDrawerToggle.setHomeAsUpIndicator(null);
                 break;
             case REMOVE:
                 removeMenuItem.setVisible(true);
@@ -262,6 +287,10 @@ public class MainActivity extends BaseActivity
                 toolbar.setLogo(R.mipmap.icon_toolbar_checked);
                 toolbar.setTitle(TOOLBAR_REMOVE_MODE_SPACES + "0 " + getString(R.string.from) + " " + String.valueOf(financeItemsAdapter.getCount()));
                 toolbar.setBackgroundResource(R.color.price_red);
+
+                actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+                drawerLayout.setEnabled(false);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
                 financeItemsToRemove.clear();
                 financeItemsAdapter.clearRemoveModes();
@@ -287,6 +316,22 @@ public class MainActivity extends BaseActivity
                 toolbar.setBackgroundResource(R.color.price_green);
                 toolbar.setLogo(null);
 
+                actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
+                drawerLayout.setEnabled(false);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+
+                actionBarDrawerToggle.setHomeAsUpIndicator(new IconicsDrawable(this)
+                .icon(GoogleMaterial.Icon.gmd_arrow_back)
+                .color(Color.WHITE)
+                .sizeDp(24));
+
+
+                actionBarDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        startMode(Mode.NORMAL);
+                    }
+                });
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Window window = getWindow();
                     window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -295,6 +340,7 @@ public class MainActivity extends BaseActivity
                 break;
         }
         mode = modeToStart;
+
     }
 
     @Override
@@ -321,6 +367,7 @@ public class MainActivity extends BaseActivity
     public boolean onMenuItemActionExpand(MenuItem item) {
         startMode(Mode.SEARCH);
         lvMainListview.setAdapter(searchAutoCompleterAdapter);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         return true;
     }
 
@@ -435,5 +482,76 @@ public class MainActivity extends BaseActivity
 
         toolbar.setTitle(TOOLBAR_REMOVE_MODE_SPACES + String.valueOf(financeItemsToRemove.size()) + " " + getString(R.string.from) + " " + String.valueOf(financeItemsAdapter.getCount()));
 
+    }
+
+
+    private void navDrawer() {
+        navigation.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+
+                //Checking if the item is in checked state or not, if not make it in checked state
+                if(menuItem.isChecked())
+                    menuItem.setChecked(false);
+                else
+                    menuItem.setChecked(true);
+
+                //Closing drawer on item click
+                drawerLayout.closeDrawers();
+
+                switch (menuItem.getItemId()) {
+               /*     case R.id.navSetting:
+                        startActivity(new Intent(MainActivity.this, SettingActivity.class));
+                        break;*/
+                    case R.id.navAbout:
+                       new LibsBuilder()
+                                //provide a style (optional) (LIGHT, DARK, LIGHT_DARK_TOOLBAR)
+                                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                                .withAboutIconShown(true)
+                                .withAboutVersionShown(true)
+                                .withAboutAppName(getString(R.string.app_name))
+                                .withActivityTitle(getString(R.string.action_about))
+                                .start(MainActivity.this);
+                        break;
+
+                }
+                return false;
+            }
+        });
+
+        //change navigation drawer item icons
+        /*navigation.getMenu().findItem(R.id.navSetting).setIcon(new IconicsDrawable(this)
+                .icon(GoogleMaterial.Icon.gmd_settings)
+                .color(Color.GRAY)
+                .sizeDp(24));*/
+
+        navigation.getMenu().findItem(R.id.navAbout).setIcon(new IconicsDrawable(this)
+                .icon(GoogleMaterial.Icon.gmd_info)
+                .color(Color.GRAY)
+                .sizeDp(24));
+
+
+        actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar
+                ,R.string.app_name, R.string.app_name){
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        //Setting the actionbarToggle to drawer layout
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+
+        //calling sync state is necessay or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
     }
 }

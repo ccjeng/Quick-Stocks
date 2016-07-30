@@ -8,8 +8,8 @@ import com.ccjeng.stock.R;
 public enum CustomPagerEnum {
 
     INFO(R.string.info, R.layout.fragment_stock_info),
-    NEWS(R.string.news, R.layout.fragment_stock_news),
-    OTHERS(R.string.others, R.layout.fragment_stock_news);
+    NEWS(R.string.news, R.layout.fragment_stock_news)/*,
+    OTHERS(R.string.others, R.layout.fragment_stock_news)*/;
 
     private int mTitleResId;
     private int mLayoutResId;

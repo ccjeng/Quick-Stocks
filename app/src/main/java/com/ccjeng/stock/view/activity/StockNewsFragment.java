@@ -48,7 +48,7 @@ public class StockNewsFragment {
             @Override
             public void onRSSReceived(final RSSFeed rssFeed) {
 
-                NewsRSSAdapter adapter = new NewsRSSAdapter(rssFeed);
+                NewsRSSAdapter adapter = new NewsRSSAdapter(context, rssFeed);
                 lvNews.setAdapter(adapter);
             }
         };
@@ -63,17 +63,5 @@ public class StockNewsFragment {
             Log.d(TAG, "getFeed error = " + e.toString());
         }
     }
-/*
-    public void showNewsDetail(int position, RSSFeed rssList) {
 
-        Intent intent = new Intent();
-        intent.setClass(context, NewsActivity.class);
-
-        Bundle bundle = new Bundle();
-        bundle.putString("newsUrl", rssList.getItem(position).getLink());
-        bundle.putString("newsTitle", rssList.getItem(position).getTitle());
-
-        intent.putExtras(bundle);
-        context.startActivity(intent);
-    }*/
 }

@@ -1,25 +1,26 @@
 package com.ccjeng.stock.utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.PreferenceManager;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.TextView;
-
-//import com.daimajia.androidanimations.library.Techniques;
-//import com.daimajia.androidanimations.library.YoYo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+//import com.daimajia.androidanimations.library.Techniques;
+//import com.daimajia.androidanimations.library.YoYo;
 
 /**
  * Created by Alon on 14.03.2015.
@@ -115,4 +116,29 @@ public class GlobalUtils {
                     .playOn(view);
         }
     }*/
+
+
+    public static Constant.GraphicType getChartPeroid(Context context){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String chartPeriod =  prefs.getString("chart_period", "1D");
+        switch (chartPeriod) {
+            case "1D":
+                return Constant.GraphicType.DAY;
+            case "5D":
+                return Constant.GraphicType.DAY5;
+            case "1M":
+                return Constant.GraphicType.MONTH;
+            case "3M":
+                return Constant.GraphicType.MONTH3;
+            case "6M":
+                return Constant.GraphicType.MONTH6;
+            case "1Y":
+                return Constant.GraphicType.YEAR;
+            case "5Y":
+                return Constant.GraphicType.YEAR5;
+            default:
+                return Constant.GraphicType.DAY;
+        }
+
+    }
 }
