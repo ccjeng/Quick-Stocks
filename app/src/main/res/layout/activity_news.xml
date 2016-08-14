@@ -26,5 +26,11 @@
         android:visibility="gone"
         wheel:matProg_barColor="@color/colorProgress"
         wheel:matProg_progressIndeterminate="true"/>
-
+<!--
+    <com.dinuscxj.progressbar.CircleProgressBar
+        android:id="@+id/progress_wheel"
+        android:layout_marginTop="@dimen/default_margin"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
+-->
 </RelativeLayout>

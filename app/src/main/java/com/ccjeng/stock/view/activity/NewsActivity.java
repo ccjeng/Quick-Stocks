@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -46,26 +47,36 @@ public class NewsActivity extends BaseActivity {
     }
 
     private void setWebView() {
+        if (webView != null) {
+            webView.getSettings().setJavaScriptEnabled(true);
+            webView.getSettings().setSupportZoom(true);
+            webView.getSettings().setBuiltInZoomControls(true);
+            webView.loadUrl(newsUrl);
+        }
 
-        webView.getSettings().setJavaScriptEnabled(true);
+        webView.setWebChromeClient(new WebChromeClient(){
+            public void onProgressChanged(WebView view, int progress) {
+                progressWheel.setProgress(progress * 100);
+                if (progress > 80) {
+                    progressWheel.setVisibility(View.GONE);
+                }
+            }
+        });
+
         webView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
                 progressWheel.setVisibility(View.VISIBLE);
-                webView.setVisibility(View.GONE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                progressWheel.setVisibility(View.GONE);
-                webView.setVisibility(View.VISIBLE);
             }
         });
 
-        webView.loadUrl(newsUrl);
 
     }
 
@@ -78,5 +89,17 @@ public class NewsActivity extends BaseActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (webView != null) {
+            webView.setVisibility(View.GONE);
+            webView.removeAllViews();
+            webView.destroy();
+            webView = null;
+        }
     }
 }
