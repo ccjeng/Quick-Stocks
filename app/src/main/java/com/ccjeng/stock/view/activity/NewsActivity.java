@@ -50,14 +50,14 @@ public class NewsActivity extends BaseActivity {
         if (webView != null) {
             webView.getSettings().setJavaScriptEnabled(true);
             webView.getSettings().setSupportZoom(true);
-            webView.getSettings().setBuiltInZoomControls(true);
+            webView.getSettings().setBuiltInZoomControls(false);
             webView.loadUrl(newsUrl);
         }
 
         webView.setWebChromeClient(new WebChromeClient(){
             public void onProgressChanged(WebView view, int progress) {
                 progressWheel.setProgress(progress * 100);
-                if (progress > 80) {
+                if (progress > 50) {
                     progressWheel.setVisibility(View.GONE);
                 }
             }
