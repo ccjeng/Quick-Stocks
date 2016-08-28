@@ -1,4 +1,5 @@
 # US Stocks
+[![Release](https://img.shields.io/github/release/ccjeng/US-Stocks.svg)](https://github.com/ccjeng/US-Stocks/releases)
 [![Build Status](https://travis-ci.org/ccjeng/US-Stocks.svg?branch=master)](https://travis-ci.org/ccjeng/US-Stocks)
 
 US Stocks is stock quotes tracker Android app which allows you to follow US stocks in simple way. 
