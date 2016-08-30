@@ -1,4 +1,4 @@
-package com.ccjeng.stock.controller;
+package com.ccjeng.stock.view.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

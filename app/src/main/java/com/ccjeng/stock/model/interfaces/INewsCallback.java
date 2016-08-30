@@ -7,6 +7,6 @@ import com.ccjeng.stock.model.rss.RSSFeed;
  */
 public interface INewsCallback {
 
-    public void onRSSReceived(RSSFeed rssFeed);
+    void onRSSReceived(RSSFeed rssFeed);
 
 }

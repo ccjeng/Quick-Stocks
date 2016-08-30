@@ -36,6 +36,7 @@ public class Stock extends Application {
             PreferencesManager.getInstance().saveStockList(stocksList);
         }
 
+
     }
 
     synchronized public Tracker getDefaultTracker() {

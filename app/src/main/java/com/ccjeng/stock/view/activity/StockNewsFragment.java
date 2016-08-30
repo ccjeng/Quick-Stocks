@@ -27,6 +27,7 @@ public class StockNewsFragment {
     private Context context;
     private StockQuote currentStock;
     private RecyclerView lvNews;
+    private NewsRSSAdapter adapter;
 
     public StockNewsFragment(View view, Context context, StockQuote currentStock) {
 
@@ -35,21 +36,20 @@ public class StockNewsFragment {
         this.currentStock = currentStock;
 
         lvNews = (RecyclerView) view.findViewById(R.id.lvNews);
-
         LinearLayoutManager llm = new LinearLayoutManager(context);
         lvNews.setLayoutManager(llm);
         lvNews.setHasFixedSize(true);
         lvNews.setItemAnimator(new DefaultItemAnimator());
-
+        adapter = new NewsRSSAdapter(context);
+        lvNews.setAdapter(adapter);
     }
 
     public void getNews() {
         INewsCallback callback = new INewsCallback() {
             @Override
             public void onRSSReceived(final RSSFeed rssFeed) {
-
-                NewsRSSAdapter adapter = new NewsRSSAdapter(context, rssFeed);
-                lvNews.setAdapter(adapter);
+                adapter.setData(rssFeed);
+                adapter.notifyDataSetChanged();
             }
         };
 

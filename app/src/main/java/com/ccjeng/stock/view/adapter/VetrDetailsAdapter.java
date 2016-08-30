@@ -1,4 +1,4 @@
-package com.ccjeng.stock.controller;
+package com.ccjeng.stock.view.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,27 +8,28 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
-import com.ccjeng.stock.model.StockDetailsItem;
+import com.ccjeng.stock.model.VetrAggratingcalcItem;
 
 import java.util.ArrayList;
 
 /**
- * Created by andycheng on 2016/3/12.
+ * Created by andycheng on 2016/8/30.
  */
-public class StockDetailsAdapter extends ArrayAdapter<StockDetailsItem> {
+public class VetrDetailsAdapter extends ArrayAdapter<VetrAggratingcalcItem> {
 
     private static class ViewHolder {
         TextView tvTitle;
         TextView tvValue;
     }
 
-    public StockDetailsAdapter(Context context, ArrayList<StockDetailsItem> stockDetailsItems) {
-        super(context, R.layout.lv_stock_details, stockDetailsItems);
+    public VetrDetailsAdapter(Context context, ArrayList<VetrAggratingcalcItem> vetrDetailsItems) {
+        super(context, R.layout.lv_stock_details, vetrDetailsItems);
+
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        StockDetailsItem stockDetailsItem = getItem(position);
+        VetrAggratingcalcItem vetrDetailsItems = getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
             viewHolder = new ViewHolder();
@@ -40,8 +41,8 @@ public class StockDetailsAdapter extends ArrayAdapter<StockDetailsItem> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-        viewHolder.tvTitle.setText(stockDetailsItem.title);
-        viewHolder.tvValue.setText(stockDetailsItem.value);
+        viewHolder.tvTitle.setText(vetrDetailsItems.title);
+        viewHolder.tvValue.setText(vetrDetailsItems.value);
 
         return convertView;
     }

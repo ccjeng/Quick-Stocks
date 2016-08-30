@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.Stock;
-import com.ccjeng.stock.controller.FinanceItemsAdapter;
+import com.ccjeng.stock.view.adapter.FinanceItemsAdapter;
 import com.ccjeng.stock.controller.SearchAutoCompleterAdapter;
 import com.ccjeng.stock.controller.StockQuoteAPI;
 import com.ccjeng.stock.model.FinanceItem;

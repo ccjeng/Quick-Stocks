@@ -17,14 +17,16 @@ import com.ccjeng.stock.view.activity.NewsActivity;
 
 public class NewsRSSAdapter extends RecyclerView.Adapter<NewsRSSAdapter.CustomViewHolder> {
 	private static final String TAG = "NewsListAdapter";
-	//private StockMainActivity context;
-	private final RSSFeed items;
+	private RSSFeed items;
 	private Context context;
 	
-	public NewsRSSAdapter(Context context, RSSFeed list) {
+	public NewsRSSAdapter(Context context) {
 		  this.context = context;
-		  this.items = list;
 	 }
+
+	public void setData(RSSFeed list){
+		this.items = list;
+	}
 
 	@Override
 	public CustomViewHolder onCreateViewHolder(ViewGroup parent, int i) {

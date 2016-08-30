@@ -131,6 +131,11 @@ public class StockMainActivity extends BaseActivity {
                     break;
 
                 case 1:
+                    StockVetrFragment stockVetrFragment = new StockVetrFragment(rootView, getActivity(), currentStock);
+                    stockVetrFragment.getSecurityInfo();
+                    break;
+
+                case 2:
                     StockNewsFragment stockNewsFragment = new StockNewsFragment(rootView, getActivity(), currentStock);
                     stockNewsFragment.getNews();
                     break;

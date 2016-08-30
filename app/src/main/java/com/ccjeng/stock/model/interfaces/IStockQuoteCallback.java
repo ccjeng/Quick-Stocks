@@ -8,6 +8,6 @@ import java.util.ArrayList;
  */
 public interface IStockQuoteCallback {
 
-    public void onQueryReceived(ArrayList<StockQuote> stockItems);
+    void onQueryReceived(ArrayList<StockQuote> stockItems);
 
 }

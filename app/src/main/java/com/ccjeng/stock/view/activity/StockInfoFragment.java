@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.controller.ChartDataAPI;
-import com.ccjeng.stock.controller.StockDetailsAdapter;
+import com.ccjeng.stock.view.adapter.StockDetailsAdapter;
 import com.ccjeng.stock.model.HistoricalDataItem;
 import com.ccjeng.stock.model.StockDetailsItem;
 import com.ccjeng.stock.model.google.StockQuote;

@@ -60,7 +60,7 @@ public class SearchAutoCompleterAdapter extends BaseAdapter
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
             if (Stock.APPDEBUG) {
-                logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+                logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
             } else {
                 logging.setLevel(HttpLoggingInterceptor.Level.NONE);
             }
