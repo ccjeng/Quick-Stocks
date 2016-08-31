@@ -1,5 +1,6 @@
 package com.ccjeng.stock.model.vetr;
 
+import com.ccjeng.stock.utils.GlobalUtils;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -13,7 +14,7 @@ public class Aggratingcalc {
     private String ratingComputeDate;
     @SerializedName("aggRatingScore")
     @Expose
-    private Double aggRatingScore;
+    private Float aggRatingScore;
     @SerializedName("totalRatings")
     @Expose
     private Long totalRatings;
@@ -140,16 +141,17 @@ public class Aggratingcalc {
      * @return
      *     The aggRatingScore
      */
-    public Double getAggRatingScore() {
+    public Float getAggRatingScore() {
         return aggRatingScore;
     }
+
 
     /**
      * 
      * @param aggRatingScore
      *     The aggRatingScore
      */
-    public void setAggRatingScore(Double aggRatingScore) {
+    public void setAggRatingScore(Float aggRatingScore) {
         this.aggRatingScore = aggRatingScore;
     }
 
@@ -270,6 +272,10 @@ public class Aggratingcalc {
         return avgTarget;
     }
 
+    public String getAvgTargetString() {
+        return GlobalUtils.NumberToString(avgTarget);
+    }
+
     /**
      * 
      * @param avgTarget
@@ -286,6 +292,10 @@ public class Aggratingcalc {
      */
     public Double getAvgTargetPct() {
         return avgTargetPct;
+    }
+
+    public String getAvgTargetPctString() {
+        return GlobalUtils.NumberToString(100*avgTargetPct) + " %";
     }
 
     /**
@@ -486,6 +496,9 @@ public class Aggratingcalc {
         return currentPrice;
     }
 
+    public String getCurrentPriceString() {
+        return GlobalUtils.NumberToString(currentPrice);
+    }
     /**
      * 
      * @param currentPrice
@@ -630,6 +643,9 @@ public class Aggratingcalc {
         return arnTargetPrice;
     }
 
+    public String getArnTargetPriceString() {
+        return GlobalUtils.NumberToString(arnTargetPrice);
+    }
     /**
      * 
      * @param arnTargetPrice

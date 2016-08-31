@@ -33,28 +33,45 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
 
-            <LinearLayout
-                android:id="@+id/llDetailColumns"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/industry"
-                android:layout_margin="5dp"
-                android:orientation="horizontal">
+                android:isIndicator="true"
+                android:numStars="5"
+                android:theme="@style/RatingBar"
+                />
 
-                <ListView
-                    android:id="@+id/vetrDetails"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="2.5dp"
-                    android:layout_weight="1"
-                    android:background="@color/white"
-                    android:clickable="false"
-                    android:divider="@android:color/transparent"
-                    android:orientation="vertical"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"/>
+            <ListView
+                android:id="@+id/vetrDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ratingBar"
+                android:background="@color/white"
+                android:clickable="false"
+                android:divider="@android:color/transparent"
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vetrDetails">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    />
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart2"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    />
             </LinearLayout>
+
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
 

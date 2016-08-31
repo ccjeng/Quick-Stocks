@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.ccjeng.stock.model.vetr.Aggratingcalc;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -24,12 +23,9 @@ public class VetrAggratingcalcItem {
     public static ArrayList<VetrAggratingcalcItem> Column(Context mContext, Aggratingcalc aggratingcalc) {
         ArrayList<VetrAggratingcalcItem> allItems = new ArrayList<VetrAggratingcalcItem>();
 
-        DecimalFormat df = new DecimalFormat("##.00");
-
-        allItems.add(new VetrAggratingcalcItem("Current Price", String.valueOf(aggratingcalc.getCurrentPrice())));
-        allItems.add(new VetrAggratingcalcItem("Crowd Target Price", String.valueOf(df.format(aggratingcalc.getAvgTarget()))));
-        allItems.add(new VetrAggratingcalcItem("%", String.valueOf(df.format(100*aggratingcalc.getAvgTargetPct()))));
-        allItems.add(new VetrAggratingcalcItem("Analyst Target Price", String.valueOf(aggratingcalc.getArnTargetPrice())));
+        allItems.add(new VetrAggratingcalcItem("Current Price", aggratingcalc.getCurrentPriceString()));
+        allItems.add(new VetrAggratingcalcItem("Crowd Target Price", aggratingcalc.getAvgTargetString() +  " ("+ aggratingcalc.getAvgTargetPctString() +")"));
+        allItems.add(new VetrAggratingcalcItem("Analyst Target Price", aggratingcalc.getArnTargetPriceString()));
 /*
         allItems.add(new VetrAggratingcalcItem("aggRatingScore", String.valueOf(aggratingcalc.getAggRatingScore())));
         allItems.add(new VetrAggratingcalcItem("bullishCount", String.valueOf(aggratingcalc.getBullishCount())));

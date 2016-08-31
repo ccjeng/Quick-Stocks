@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 //import com.daimajia.androidanimations.library.Techniques;
 //import com.daimajia.androidanimations.library.YoYo;
@@ -140,5 +141,11 @@ public class GlobalUtils {
                 return Constant.GraphicType.DAY;
         }
 
+    }
+
+
+    public static String NumberToString(Double input) {
+        DecimalFormat df = new DecimalFormat("##.00");
+        return String.valueOf(df.format(input));
     }
 }

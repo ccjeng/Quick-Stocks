@@ -45,7 +45,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.github.PhilJay:MPAndroidChart:v2.2.4'
+    compile 'com.github.PhilJay:MPAndroidChart:v3.0.0-beta1'
     compile 'joda-time:joda-time:2.9.2'
     compile 'com.pnikosis:materialish-progress:1.7'
     compile 'org.jsoup:jsoup:1.9.1'
