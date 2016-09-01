@@ -30,11 +30,10 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by andycheng on 2016/7/29.
@@ -206,7 +205,7 @@ public class StockInfoFragment {
             @Override
             public void onQueryReceived(ArrayList<HistoricalDataItem> items, String volume) {
                 setChart(items);
-               // setBarChart(items);
+                setBarChart(items);
 
                 if (currentGraphicType.equals(Constant.GraphicType.DAY)) {
                     lvLeftDetailsColumn.setEnabled(false);
@@ -226,7 +225,7 @@ public class StockInfoFragment {
 
     private void setChart(ArrayList<HistoricalDataItem> stockItems){
 
-    /*    ArrayList<Float> closeValues = new ArrayList<Float>();;
+       ArrayList<Float> closeValues = new ArrayList<Float>();;
         //ArrayList<Float> volumeValues = new ArrayList<Float>();;
 
         //XAxis
@@ -236,7 +235,7 @@ public class StockInfoFragment {
             xVals.add(DateTimeFormater.parseDateFormat(stockItems.get(i).getDate(), currentGraphicType));
             closeValues.add(Float.valueOf(stockItems.get(i).getClose()));
             //volumeValues.add(Float.valueOf(stockItems.get(i).getVolume()));
-        }*/
+        }
 
         mChart.getAxisLeft().setEnabled(false);
         mChart.getAxisRight().setEnabled(true);
@@ -253,6 +252,28 @@ public class StockInfoFragment {
         mChart.setDrawOrder(new CombinedChart.DrawOrder[] {
                 CombinedChart.DrawOrder.BAR,  CombinedChart.DrawOrder.CANDLE, CombinedChart.DrawOrder.LINE
         });
+/*
+        final String[] xVals = new String[stockItems.size()];
+        for (int i = 0; i < stockItems.size(); i++) {
+            xVals[i] = DateTimeFormater.parseDateFormat(stockItems.get(i).getDate(), currentGraphicType);
+        }
+
+        IAxisValueFormatter formatter = new IAxisValueFormatter() {
+
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                return xVals[(int) value];
+            }
+
+            // we don't draw numbers, so no decimal digits needed
+            @Override
+            public int getDecimalDigits() {  return 0; }
+        };
+*/
+        XAxis xAxis = mChart.getXAxis();
+     //   xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+     //   xAxis.setValueFormatter(formatter);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
         YAxis rightAxis = mChart.getAxisRight();
         rightAxis.setDrawGridLines(false);
@@ -261,20 +282,17 @@ public class StockInfoFragment {
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setDrawGridLines(false);
 
-        /*
+
         leftAxis.removeAllLimitLines();
         leftAxis.setAxisMaxValue(Collections.max(closeValues));
         leftAxis.setAxisMinValue(Collections.min(closeValues));
-*/
-        XAxis xAxis = mChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
 
         Legend l = mChart.getLegend();
         l.setEnabled(false);
         mChart.setAutoScaleMinMaxEnabled(!mChart.isAutoScaleMinMaxEnabled());
 
-        CombinedData data = new CombinedData();
+        CombinedData data = new CombinedData(xVals);
 
         data.setData(generateLineData(stockItems));
         mChart.animateX(1000);
@@ -353,18 +371,18 @@ public class StockInfoFragment {
         }
 
         BarDataSet dataset = new BarDataSet(entries, "Volume");
-       // dataset.setColor(context.getResources().getColor(R.color.colorPrimaryDark));
-        dataset.setColors(ColorTemplate.MATERIAL_COLORS);
+        dataset.setColor(context.getResources().getColor(R.color.colorPrimaryDark));
+        //dataset.setColors(ColorTemplate.MATERIAL_COLORS);
 
-        ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
-        dataSets.add(dataset);
+        //ArrayList<IBarDataSet> dataSets = new ArrayList<IBarDataSet>();
+        //dataSets.add(dataset);
 
-        BarData barData = new BarData(dataSets);
-        barData.setBarWidth(0.9f);
+        BarData barData = new BarData(xVals);
+       // barData.setBarWidth(0.9f);
 
         mBarChart.setAutoScaleMinMaxEnabled(!mBarChart.isAutoScaleMinMaxEnabled());
 
-        //barData.addDataSet(dataset);
+        barData.addDataSet(dataset);
         mBarChart.animateX(1000);
         mBarChart.setData(barData);
         mBarChart.invalidate();

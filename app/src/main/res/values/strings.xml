@@ -55,7 +55,7 @@
 
 
     <string name="info">Quote</string>
-    <string name="vetr">Vetr</string>
+    <string name="vetr">Rating</string>
     <string name="news">News</string>
 
     <string name="preference_content_chart_period">Default Chart Period</string>

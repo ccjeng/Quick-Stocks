@@ -15,12 +15,8 @@ import com.ccjeng.stock.model.interfaces.ISecurityInfoCallback;
 import com.ccjeng.stock.model.vetr.SecurityInfo;
 import com.ccjeng.stock.view.adapter.VetrDetailsAdapter;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 
-import java.util.ArrayList;
+//import com.github.mikephil.charting.data.PieEntry;
 
 /**
  * Created by andycheng on 2016/8/30.
@@ -70,8 +66,8 @@ public class StockVetrFragment {
                 VetrDetailsAdapter adapter = new VetrDetailsAdapter(context, VetrAggratingcalcItem.Column(context, securityInfo.getData().getAggratingcalc()));
                 detailsColumn.setAdapter(adapter);
 
-                setPieChart(securityInfo);
-                setStrongPieChart(securityInfo);
+                //setPieChart(securityInfo);
+                //setStrongPieChart(securityInfo);
             }
         };
 
@@ -107,6 +103,7 @@ public class StockVetrFragment {
         pieChart.setHighlightPerTapEnabled(true);
 
         //set data
+        /*
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         entries.add(new PieEntry(securityInfo.getData().getAggratingcalc().getTotalSellRatings(), "Sell"));
         entries.add(new PieEntry(securityInfo.getData().getAggratingcalc().getTotalHoldRatings(), "Hold"));
@@ -128,7 +125,7 @@ public class StockVetrFragment {
         pieChart.highlightValues(null);
 
         pieChart.invalidate();
-
+*/
     }
 
 
@@ -158,6 +155,7 @@ public class StockVetrFragment {
         pieChart2.setHighlightPerTapEnabled(true);
 
         //set data
+        /*
         ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
         entries.add(new PieEntry(securityInfo.getData().getAggratingcalc().getTotalStrongSellRatings(), "Sell"));
         entries.add(new PieEntry(securityInfo.getData().getAggratingcalc().getTotalStrongBuyRatings(), "Buy"));
@@ -178,5 +176,6 @@ public class StockVetrFragment {
         pieChart2.highlightValues(null);
 
         pieChart2.invalidate();
+        */
     }
 }
