@@ -51,6 +51,13 @@
                     android:paddingTop="5dp"/>
             </android.support.v4.widget.SwipeRefreshLayout>
 
+            <ProgressBar
+                android:id="@+id/progress_wheel"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_centerInParent="true" />
+            <!--
             <com.pnikosis.materialishprogress.ProgressWheel
                 android:id="@+id/progress_wheel"
                 android:layout_width="80dp"
@@ -58,7 +65,7 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone"
                 wheel:matProg_barColor="@color/colorProgress"
-                wheel:matProg_progressIndeterminate="true"/>
+                wheel:matProg_progressIndeterminate="true"/>-->
         </RelativeLayout>
 
         <android.support.design.widget.NavigationView

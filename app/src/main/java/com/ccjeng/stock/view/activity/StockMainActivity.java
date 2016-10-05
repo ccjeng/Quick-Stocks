@@ -29,7 +29,6 @@ public class StockMainActivity extends BaseActivity {
     @Bind(R.id.container) ViewPager mViewPager;
     @Bind(R.id.tabs) TabLayout tabs;
 
-
     private static StockQuote currentStock = null;
 
     /**

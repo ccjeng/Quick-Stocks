@@ -9,10 +9,10 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.view.base.BaseActivity;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,7 +21,7 @@ public class NewsActivity extends BaseActivity {
 
     @Bind(R.id.webview) WebView webView;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
+    @Bind(R.id.progress_wheel) ProgressBar progressWheel;
 
     private String newsUrl;
     private String newsTitle;

@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,11 +23,11 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
 import com.ccjeng.stock.Stock;
-import com.ccjeng.stock.view.adapter.FinanceItemsAdapter;
 import com.ccjeng.stock.controller.SearchAutoCompleterAdapter;
 import com.ccjeng.stock.controller.StockQuoteAPI;
 import com.ccjeng.stock.model.FinanceItem;
@@ -36,14 +35,12 @@ import com.ccjeng.stock.model.google.StockQuote;
 import com.ccjeng.stock.model.interfaces.IStockQuoteCallback;
 import com.ccjeng.stock.utils.GlobalUtils;
 import com.ccjeng.stock.utils.PreferencesManager;
+import com.ccjeng.stock.view.adapter.FinanceItemsAdapter;
 import com.ccjeng.stock.view.base.BaseActivity;
 import com.google.android.gms.analytics.Tracker;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.mikepenz.google_material_typeface_library.GoogleMaterial;
-import com.mikepenz.iconics.IconicsDrawable;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -86,7 +83,7 @@ public class MainActivity extends BaseActivity
     @Bind(R.id.main) LinearLayout mainLayout;
     @Bind(R.id.lvFinanceItemsList) DynamicListView lvMainListview;
     @Bind(R.id.toolbar) Toolbar toolbar;
-    @Bind(R.id.progress_wheel) ProgressWheel progressWheel;
+    @Bind(R.id.progress_wheel) ProgressBar progressWheel;
     @Bind(R.id.swipe_container) SwipeRefreshLayout mSwipeLayout;
     @Bind(R.id.navigation) NavigationView navigation;
     @Bind(R.id.drawerlayout) DrawerLayout drawerLayout;
@@ -319,12 +316,7 @@ public class MainActivity extends BaseActivity
                 actionBarDrawerToggle.setDrawerIndicatorEnabled(false);
                 drawerLayout.setEnabled(false);
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
-                actionBarDrawerToggle.setHomeAsUpIndicator(new IconicsDrawable(this)
-                .icon(GoogleMaterial.Icon.gmd_arrow_back)
-                .color(Color.WHITE)
-                .sizeDp(24));
-
+                actionBarDrawerToggle.setHomeAsUpIndicator(R.drawable.ic_keyboard_backspace_white_24px);
 
                 actionBarDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener(){
                     @Override
@@ -519,18 +511,6 @@ public class MainActivity extends BaseActivity
             }
         });
 
-        //change navigation drawer item icons
-        /*navigation.getMenu().findItem(R.id.navSetting).setIcon(new IconicsDrawable(this)
-                .icon(GoogleMaterial.Icon.gmd_settings)
-                .color(Color.GRAY)
-                .sizeDp(24));*/
-
-        navigation.getMenu().findItem(R.id.navAbout).setIcon(new IconicsDrawable(this)
-                .icon(GoogleMaterial.Icon.gmd_info)
-                .color(Color.GRAY)
-                .sizeDp(24));
-
-
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar
                 ,R.string.app_name, R.string.app_name){
 
@@ -543,7 +523,6 @@ public class MainActivity extends BaseActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-
                 super.onDrawerOpened(drawerView);
             }
         };

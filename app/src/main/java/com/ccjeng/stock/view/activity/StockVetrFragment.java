@@ -40,7 +40,6 @@ public class StockVetrFragment {
     private ListView detailsColumn;
     private PieChart pieChart;
 
-
     public StockVetrFragment(View view, Context context, StockQuote currentStock) {
 
         this.view = view;
@@ -52,8 +51,6 @@ public class StockVetrFragment {
         ratingBar = (RatingBar)  view.findViewById(R.id.ratingBar);
         detailsColumn = (ListView) view.findViewById(R.id.vetrDetails);
         pieChart = (PieChart) view.findViewById(R.id.piechart);
-
-
     }
 
     public void getSecurityInfo() {
@@ -105,6 +102,7 @@ public class StockVetrFragment {
         // enable rotation of the chart by touch
         pieChart.setRotationEnabled(true);
         pieChart.setHighlightPerTapEnabled(true);
+        pieChart.getLegend().setEnabled(false);
 
         //set data
         ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -127,6 +125,7 @@ public class StockVetrFragment {
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(11f);
         data.setValueTextColor(Color.WHITE);
+
         //data.setValueTypeface(mTfLight);
         pieChart.setData(data);
         // undo all highlights

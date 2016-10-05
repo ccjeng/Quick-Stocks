@@ -6,6 +6,7 @@
             android:title="@string/action_settings"/>-->
         <item
             android:id="@+id/navAbout"
-            android:title="@string/action_about"/>
+            android:title="@string/action_about"
+            android:icon="@drawable/ic_exclamation_sign"/>
     </group>
 </menu>

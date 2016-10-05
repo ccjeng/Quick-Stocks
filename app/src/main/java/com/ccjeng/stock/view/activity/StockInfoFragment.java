@@ -6,6 +6,7 @@ import android.graphics.Typeface;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ccjeng.stock.R;
@@ -30,7 +31,6 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.pnikosis.materialishprogress.ProgressWheel;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,7 +60,7 @@ public class StockInfoFragment {
     private View viewPriceIndicator;
     private ListView lvLeftDetailsColumn;
     private ListView lvRightDetailsColumn;
-    private ProgressWheel progressWheel;
+    private ProgressBar progressWheel;
     private CombinedChart mChart;
     private BarChart mBarChart;
     private Constant.GraphicType currentGraphicType;
@@ -145,7 +145,7 @@ public class StockInfoFragment {
         viewPriceIndicator = (View) view.findViewById(R.id.viewPriceIndicator);
         lvLeftDetailsColumn = (ListView) view.findViewById(R.id.lvStockDetailsLeft);
         lvRightDetailsColumn = (ListView) view.findViewById(R.id.lvStockDetailsRight);
-        progressWheel = (ProgressWheel) view.findViewById(R.id.progress_wheel);
+        progressWheel = (ProgressBar) view.findViewById(R.id.progress_wheel);
         mChart = (CombinedChart) view.findViewById(R.id.chartStock);
         mBarChart = (BarChart) view.findViewById(R.id.barchartStock);
     }
