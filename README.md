@@ -10,9 +10,9 @@ Inspired by TinyStockQuotes
 * Restructure to Retrofit + RxJava.
 
 Libraries
-* [Retrofit] (http://square.github.io/retrofit/)
-* [RxAndroid] (https://github.com/ReactiveX/RxAndroid)
-* [MPAndroidChart] (https://github.com/PhilJay/MPAndroidChart)
-* [ButterKnife] (http://jakewharton.github.io/butterknife/)
-* [Calligraphy] (https://github.com/chrisjenx/Calligraphy)
-* [ListviewAnimations] (https://github.com/nhaarman/ListViewAnimations)
+* [Retrofit](http://square.github.io/retrofit/)
+* [RxAndroid](https://github.com/ReactiveX/RxAndroid)
+* [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+* [ButterKnife](http://jakewharton.github.io/butterknife/)
+* [Calligraphy](https://github.com/chrisjenx/Calligraphy)
+* [ListviewAnimations](https://github.com/nhaarman/ListViewAnimations)
